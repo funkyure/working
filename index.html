@@ -13,7 +13,10 @@
   --text:#e8edf5;--text2:#8fa3be;--text3:#5a7294;
   --accent:#3b7dd8;--accent2:#5b9af0;
   --red:#e05252;--red-bg:rgba(224,82,82,0.12);
-  --yellow:#f0b429;--green:#3dc97e;--blue:#4ba3d9;--gray:#6b7ea0;
+  --yellow:#f0b429;--yellow-bg:rgba(240,180,41,0.12);
+  --orange:#f07829;--orange-bg:rgba(240,120,41,0.15);
+  --green:#3dc97e;--blue:#4ba3d9;--gray:#6b7ea0;
+  --pin:#f0b429;
   --font:'Noto Sans TC',sans-serif;--mono:'JetBrains Mono',monospace;
   --radius:10px;--shadow:0 4px 24px rgba(0,0,0,0.4);
 }
@@ -31,7 +34,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .hdr-logo{font-size:13px;font-weight:700;letter-spacing:1px;color:var(--accent2);text-transform:uppercase;white-space:nowrap;}
 .hdr-title{font-size:15px;font-weight:500;border-left:1px solid var(--border2);padding-left:14px;white-space:nowrap;}
 .hdr-sp{flex:1;}
-.srch{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 14px;width:190px;transition:border-color .2s;}
+.srch{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 14px;width:220px;transition:border-color .2s;}
 .srch:focus-within{border-color:var(--accent);}
 .srch input{background:none;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:13px;width:100%;}
 .srch input::placeholder{color:var(--text3);}
@@ -44,14 +47,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .btn-del{background:var(--red-bg);border-color:rgba(224,82,82,0.35);color:var(--red);}
 .btn-del:hover{background:var(--red);color:#fff;}
 .btn-sm{padding:3px 8px;font-size:11px;border-radius:6px;}
+.btn-pin{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;opacity:0.4;transition:opacity .2s;}
+.btn-pin:hover,.btn-pin.pinned{opacity:1;}
 .lup{font-size:11px;color:var(--text3);white-space:nowrap;}
 
-/* FILTERS */
+/* FILTER BAR */
 .fbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:7px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
 .flbl{font-size:11px;color:var(--text3);margin-right:2px;}
 .fchip{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:14px;padding:3px 11px;cursor:pointer;font-size:12px;font-family:var(--font);transition:all .2s;}
 .fchip:hover,.fchip.on{border-color:var(--accent);color:var(--accent2);background:rgba(59,125,216,0.12);}
 .fsep{color:var(--border2);}
+/* Active filter tags */
+.active-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:8px;}
+.af-tag{display:flex;align-items:center;gap:4px;background:rgba(59,125,216,0.18);border:1px solid rgba(59,125,216,0.4);border-radius:12px;padding:2px 8px;font-size:11px;color:var(--accent2);}
+.af-tag button{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:12px;padding:0;line-height:1;}
 
 /* MAIN */
 .main{padding:16px 20px;max-width:1600px;margin:0 auto;}
@@ -60,7 +69,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sec{margin-bottom:24px;}
 
 /* STATS */
-.srow{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:20px;}
+.srow{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:16px;}
 .sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;}
 .sc.ur{border-left:3px solid var(--red);}
 .sc.wa{border-left:3px solid var(--yellow);}
@@ -70,6 +79,24 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sv.r{color:var(--red);}.sv.y{color:var(--yellow);}.sv.b{color:var(--accent2);}.sv.g{color:var(--green);}
 .sl{font-size:11px;color:var(--text3);margin-top:4px;}
 .si{font-size:11px;color:var(--text2);margin-top:6px;line-height:1.6;}
+
+/* PINNED ZONE */
+.pinned-zone{background:rgba(240,180,41,0.06);border:1px solid rgba(240,180,41,0.25);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;}
+.pinned-zone-title{font-size:11px;font-weight:700;color:var(--pin);letter-spacing:1px;margin-bottom:10px;}
+.pinned-list{display:flex;flex-direction:column;gap:6px;}
+.pinned-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid rgba(240,180,41,0.2);border-radius:8px;padding:8px 12px;cursor:pointer;}
+.pinned-item:hover{border-color:rgba(240,180,41,0.4);}
+.pinned-name{font-size:13px;font-weight:500;flex:1;}
+.pinned-meta{display:flex;align-items:center;gap:8px;}
+
+/* WEEKLY RECAP */
+.weekly-recap{background:rgba(61,201,126,0.06);border:1px solid rgba(61,201,126,0.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;}
+.weekly-recap-title{font-size:11px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:10px;}
+.weekly-list{display:flex;flex-direction:column;gap:4px;}
+.weekly-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);}
+.weekly-item:last-child{border-bottom:none;}
+.weekly-item .wcat{font-size:10px;background:var(--bg3);border-radius:4px;padding:2px 6px;color:var(--text3);}
+.weekly-item .wdate{font-size:10px;color:var(--text3);font-family:var(--mono);margin-left:auto;}
 
 /* KANBAN */
 .kb{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
@@ -85,10 +112,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 
 /* CARD */
 .tc{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:border-color .2s,box-shadow .2s;}
-.tc.ov{border-left:3px solid var(--red);}.tc.ds{border-left:3px solid var(--yellow);}
+.tc.ov1{border-left:3px solid var(--yellow);background:rgba(240,180,41,0.04);}   /* < 7 days */
+.tc.ov2{border-left:3px solid var(--orange);background:rgba(240,120,41,0.05);}   /* 7-30 days */
+.tc.ov3{border-left:3px solid var(--red);background:rgba(224,82,82,0.06);}       /* > 30 days */
+.tc.ov3 .cname{font-weight:700;}
+.tc.ds{border-left:3px solid var(--yellow);}
+.tc.pinned-card{border-top:2px solid var(--pin);}
 .ctop{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px;}
-.cname{font-size:13px;font-weight:500;line-height:1.3;cursor:pointer;}
+.ctop-left{display:flex;align-items:flex-start;gap:6px;flex:1;min-width:0;}
+.cname{font-size:13px;font-weight:500;line-height:1.3;cursor:pointer;flex:1;}
 .cname:hover{color:var(--accent2);}
+.ctop-right{display:flex;align-items:center;gap:4px;flex-shrink:0;}
 .cpri{font-size:10px;font-weight:700;font-family:var(--mono);border-radius:4px;padding:2px 6px;white-space:nowrap;}
 .pp0{background:rgba(224,82,82,0.2);color:var(--red);}
 .pp1{background:rgba(240,180,41,0.15);color:var(--yellow);}
@@ -97,7 +131,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .ccat{font-size:10px;color:var(--text3);background:var(--bg4);border-radius:4px;padding:2px 7px;}
 .cunit{font-size:10px;color:var(--text3);}
 .cdue{font-size:11px;font-family:var(--mono);}
-.cdue.ov{color:var(--red);}.cdue.ds{color:var(--yellow);}.cdue.nm{color:var(--text3);}
+.cdue.ov{color:var(--red);font-weight:600;}
+.cdue.ov-orange{color:var(--orange);font-weight:600;}
+.cdue.ov-yellow{color:var(--yellow);}
+.cdue.ds{color:var(--yellow);}
+.cdue.nm{color:var(--text3);}
+/* Overdue badge */
+.ov-badge{font-size:9px;font-weight:700;border-radius:4px;padding:1px 5px;white-space:nowrap;}
+.ov-badge.ov1{background:rgba(240,180,41,0.2);color:var(--yellow);}
+.ov-badge.ov2{background:rgba(240,120,41,0.2);color:var(--orange);}
+.ov-badge.ov3{background:rgba(224,82,82,0.2);color:var(--red);}
+/* Quick links */
+.clinks{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.clink-icon{font-size:14px;text-decoration:none;opacity:0.7;transition:opacity .2s;}
+.clink-icon:hover{opacity:1;}
 .pb{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:2px;}
 .pf{height:100%;border-radius:2px;transition:width .4s;}
 .pf0{background:var(--red);}.pf1{background:var(--yellow);}.pf2{background:var(--accent);}.pfd{background:var(--green);}
@@ -105,8 +152,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .cexp{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
 .cexp.open{display:block;}
 .cnote{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5;}
-.clink a{font-size:11px;color:var(--accent2);text-decoration:none;}
-.clink a:hover{text-decoration:underline;}
 .cid{font-size:10px;color:var(--text3);font-family:var(--mono);margin:6px 0;}
 .cacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 
@@ -207,7 +252,7 @@ textarea.fc{resize:vertical;min-height:70px;}
   <div class="hdr-sp"></div>
   <div class="srch">
     <span style="color:var(--text3)">🔍</span>
-    <input type="text" id="searchInput" placeholder="搜尋…" oninput="applyFilters()">
+    <input type="text" id="searchInput" placeholder="搜尋名稱、備註、類別…" oninput="applyFilters()">
   </div>
   <button class="btn btn-pri" onclick="openModal()">＋ 新增任務</button>
   <button class="btn" onclick="toggleSort()">排序: <span id="sortLabel">到期日</span></button>
@@ -237,6 +282,7 @@ textarea.fc{resize:vertical;min-height:70px;}
   <button class="fchip" data-f="pri" data-v="P0">P0</button>
   <button class="fchip" data-f="pri" data-v="P1">P1</button>
   <button class="fchip" data-f="pri" data-v="P2">P2</button>
+  <div class="active-filters" id="activeFilters"></div>
 </div>
 
 <div class="main">
@@ -261,28 +307,40 @@ textarea.fc{resize:vertical;min-height:70px;}
         <button class="btn btn-pri btn-sm" onclick="saveConfig()">儲存並重新載入</button>
         <button class="btn btn-sm" onclick="document.getElementById('cfgp').classList.add('hidden')">取消</button>
       </div>
-      <div style="font-size:11px;color:var(--text3);line-height:1.7">
-        📌 <b>Spreadsheet ID</b>：Sheets 網址中 /d/ 與 /edit 之間的字串<br>
-        📌 <b>Apps Script 網址</b>：貼上 Code.gs → 部署 → 網頁應用程式 → 執行身分「我」→ 存取「任何人」→ 部署 → 複製網址
-      </div>
     </div>
   </div>
 
+  <!-- ZONE 1: 今日戰情 -->
   <div class="sec">
     <div class="ztitle">今日戰情</div>
     <div class="srow" id="statsRow"><div class="ld"><div class="sp"></div></div></div>
+
+    <!-- 釘選區 -->
+    <div id="pinnedZone" class="pinned-zone hidden">
+      <div class="pinned-zone-title">📌 優先關注</div>
+      <div class="pinned-list" id="pinnedList"></div>
+    </div>
+
+    <!-- 本週完成 -->
+    <div id="weeklyZone" class="weekly-recap hidden">
+      <div class="weekly-recap-title">✅ 本週完成</div>
+      <div class="weekly-list" id="weeklyList"></div>
+    </div>
   </div>
 
+  <!-- ZONE 2: 任務看板 -->
   <div class="sec">
     <div class="ztitle">任務看板</div>
     <div class="kb" id="kb"><div class="ld" style="grid-column:1/-1"><div class="sp"></div></div></div>
   </div>
 
+  <!-- ZONE 3: 時間軸 -->
   <div class="sec">
     <div class="ztitle">時間軸（前後 30 天）</div>
     <div class="gw"><div class="gi"><div id="gantt"></div></div></div>
   </div>
 
+  <!-- ZONE 4: 統計 -->
   <div class="sec">
     <div class="ztitle">統計分析</div>
     <div class="chrow" id="charts"><div class="ld" style="grid-column:1/-1"><div class="sp"></div></div></div>
@@ -344,23 +402,24 @@ textarea.fc{resize:vertical;min-height:70px;}
 
 <script>
 // ── CONFIG ──
-let SID   = localStorage.getItem('esg_sid') || '';
-let SURL  = localStorage.getItem('esg_surl') || '';
+let SID  = localStorage.getItem('esg_sid') || '';
+let SURL = localStorage.getItem('esg_surl') || '';
 const SNAME = 'ESG_Work';
 let allT = [], curSort = 'due', fCat = '', fUnit = '', fPri = '', submitting = false;
+let pinnedIds = JSON.parse(localStorage.getItem('esg_pinned') || '[]');
 
-// ── DEMO ──
+// ── DEMO DATA ──
 const DEMO = [
-  {id:'ESG-2025-001',name:'GRI 2024準則更新研析',cat:'查資料',subcat:'GRI',status:'🟡進行中',pri:'P1',start:'2025-03-01',due:'2025-06-15',pct:60,assignee:'我',unit:'董事會',link:'',note:'需整理 GRI 302/305 能源與排放新要求，準備給永續委員會簡報使用',updated:'2025-05-10'},
-  {id:'ESG-2025-002',name:'金管會函文回覆—綠色金融行動方案3.0',cat:'信件',subcat:'綠色金融',status:'🔴緊急',pri:'P0',start:'2025-05-12',due:'2025-05-20',pct:30,assignee:'我',unit:'金管會',link:'',note:'須附上本行2024年綠色授信佔比、ESG評分矩陣，法遵部已提供初稿待整合',updated:'2025-05-15'},
-  {id:'ESG-2025-003',name:'2024永續報告書中英翻譯',cat:'翻譯',subcat:'永續報告書',status:'🔴緊急',pri:'P0',start:'2025-04-20',due:'2025-05-25',pct:45,assignee:'我',unit:'董事會',link:'',note:'英文版共112頁，目前完成至第5章，第6章氣候風險章節術語較難',updated:'2025-05-14'},
+  {id:'ESG-2025-001',name:'GRI 2024準則更新研析',cat:'查資料',subcat:'GRI',status:'🟡進行中',pri:'P1',start:'2025-03-01',due:'2025-06-15',pct:60,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'需整理 GRI 302/305 能源與排放新要求',updated:'2025-05-10'},
+  {id:'ESG-2025-002',name:'金管會函文回覆—綠色金融行動方案3.0',cat:'信件',subcat:'綠色金融',status:'🔴緊急',pri:'P0',start:'2025-05-12',due:'2025-05-20',pct:30,assignee:'我',unit:'金管會',link:'',note:'須附上本行2024年綠色授信佔比',updated:'2025-05-15'},
+  {id:'ESG-2025-003',name:'2024永續報告書中英翻譯',cat:'翻譯',subcat:'永續報告書',status:'🔴緊急',pri:'P0',start:'2025-04-20',due:'2025-05-25',pct:45,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'英文版共112頁，目前完成至第5章',updated:'2025-05-14'},
   {id:'ESG-2025-004',name:'董事會ESG簡報製作（Q1報告）',cat:'報告',subcat:'TCFD',status:'🟡進行中',pri:'P1',start:'2025-05-01',due:'2025-05-28',pct:70,assignee:'我',unit:'董事會',link:'',note:'TCFD氣候情境分析頁面已完成，待財務長確認數字',updated:'2025-05-13'},
-  {id:'ESG-2025-005',name:'TCFD氣候風險揭露架構建立',cat:'查資料',subcat:'TCFD',status:'🟢待處理',pri:'P1',start:'2025-06-01',due:'2025-07-31',pct:10,assignee:'外部顧問',unit:'風控部',link:'',note:'委外給資誠顧問，需提供本行資產負債表及授信組合明細',updated:'2025-05-08'},
-  {id:'ESG-2025-006',name:'綠色貸款專案進度追蹤',cat:'追蹤',subcat:'綠色金融',status:'🟡進行中',pri:'P1',start:'2025-01-01',due:'2025-12-31',pct:38,assignee:'同事',unit:'業務部',link:'',note:'每月統計綠色授信新增金額，5月目標15億，目前達成5.7億',updated:'2025-05-12'},
-  {id:'ESG-2025-007',name:'公平待客原則自評報告',cat:'報告',subcat:'公平待客',status:'🔵排程中',pri:'P2',start:'2025-07-01',due:'2025-08-31',pct:0,assignee:'我',unit:'金管會',link:'',note:'依金管會2024年修訂版架構進行，需協調消保部門提供申訴資料',updated:'2025-05-01'},
-  {id:'ESG-2025-008',name:'永續發展委員會議事錄整理',cat:'會議',subcat:'',status:'⚪️已完成',pri:'P2',start:'2025-04-15',due:'2025-04-30',pct:100,assignee:'我',unit:'董事會',link:'',note:'Q1永續委員會議事錄已完成，已存入Google Drive',updated:'2025-05-02'},
-  {id:'ESG-2025-009',name:'同業ESG評分比較分析',cat:'查資料',subcat:'',status:'🟢待處理',pri:'P2',start:'2025-05-20',due:'2025-06-30',pct:5,assignee:'我',unit:'董事會',link:'',note:'比較國泰、富邦、中信三家銀行2023年ESG評分與揭露範圍',updated:'2025-05-10'},
-  {id:'ESG-2025-010',name:'碳排放盤查第三方查驗協調',cat:'追蹤',subcat:'',status:'🔴緊急',pri:'P0',start:'2025-05-08',due:'2025-05-22',pct:55,assignee:'外部顧問',unit:'風控部',link:'',note:'BSI查驗進行中，需提供範疇二電力數據修正版，電費單已請總務部補傳',updated:'2025-05-16'},
+  {id:'ESG-2025-005',name:'TCFD氣候風險揭露架構建立',cat:'查資料',subcat:'TCFD',status:'🟢待處理',pri:'P1',start:'2025-06-01',due:'2025-07-31',pct:10,assignee:'外部顧問',unit:'風控部',link:'',note:'委外給資誠顧問',updated:'2025-05-08'},
+  {id:'ESG-2025-006',name:'綠色貸款專案進度追蹤',cat:'追蹤',subcat:'綠色金融',status:'🟡進行中',pri:'P1',start:'2025-01-01',due:'2025-12-31',pct:38,assignee:'同事',unit:'業務部',link:'',note:'每月統計綠色授信新增金額',updated:'2025-05-12'},
+  {id:'ESG-2025-007',name:'公平待客原則自評報告',cat:'報告',subcat:'公平待客',status:'🔵排程中',pri:'P2',start:'2025-07-01',due:'2025-08-31',pct:0,assignee:'我',unit:'金管會',link:'',note:'依金管會2024年修訂版架構進行',updated:'2025-05-01'},
+  {id:'ESG-2025-008',name:'永續發展委員會議事錄整理',cat:'會議',subcat:'',status:'⚪️已完成',pri:'P2',start:'2025-04-15',due:'2025-04-30',pct:100,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'Q1永續委員會議事錄已完成',updated:'2025-05-12'},
+  {id:'ESG-2025-009',name:'同業ESG評分比較分析',cat:'查資料',subcat:'',status:'🟢待處理',pri:'P2',start:'2025-05-20',due:'2025-06-30',pct:5,assignee:'我',unit:'董事會',link:'',note:'比較國泰、富邦、中信三家銀行',updated:'2025-05-10'},
+  {id:'ESG-2025-010',name:'碳排放盤查第三方查驗協調',cat:'追蹤',subcat:'',status:'🔴緊急',pri:'P0',start:'2025-05-08',due:'2025-05-22',pct:55,assignee:'外部顧問',unit:'風控部',link:'',note:'BSI查驗進行中，需提供範疇二電力數據修正版',updated:'2025-05-16'},
 ];
 
 // ── UTILS ──
@@ -370,35 +429,67 @@ const fm = s => { if(!s) return ''; const d=new Date(s); return `${d.getMonth()+
 const es = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const pc = p => p==='P0'?'pp0':p==='P1'?'pp1':'pp2';
 const pfc = (p,v) => v===100?'pfd':p==='P0'?'pf0':p==='P1'?'pf1':'pf2';
-function dc(due){ const d=dd(due); return d<0?'ov':d<=7?'ds':'nm'; }
-function dl(due){
-  const d=dd(due); if(!due) return '';
-  if(d<0) return `逾期${-d}天`; if(d===0) return '今天到期'; if(d===1) return '明天';
-  if(d<=7) return `${d}天後`; return fm(due);
+
+// Overdue grading: returns {cls, badgeCls, dueCls, label}
+function ovGrade(due, status) {
+  if (status === '⚪️已完成') return null;
+  const d = dd(due);
+  if (!due || d >= 0) return null;
+  const days = -d;
+  if (days <= 7)  return {cls:'ov1', badgeCls:'ov1', dueCls:'ov-yellow', label:`逾期${days}天`};
+  if (days <= 30) return {cls:'ov2', badgeCls:'ov2', dueCls:'ov-orange', label:`逾期${days}天`};
+  return           {cls:'ov3', badgeCls:'ov3', dueCls:'ov',        label:`逾期${days}天`};
 }
 
-// ── LOAD ──
-async function load(){
-  if(!SID){ useDemo(); return; }
-  const url=`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SNAME)}&t=${Date.now()}`;
-  try{
-    const r=await fetch(url); if(!r.ok) throw 0;
-    const rows=pcsv(await r.text());
-    if(rows.length<2){ useDemo(); return; }
-    allT=rows.slice(1).map(r=>({
-      id:r[0]||'',name:r[1]||'',cat:r[2]||'',subcat:r[3]||'',status:r[4]||'',
-      pri:r[5]||'P2',start:r[6]||'',due:r[7]||'',pct:parseInt(r[8])||0,
-      assignee:r[9]||'',unit:r[10]||'',link:r[11]||'',note:r[12]||'',updated:r[13]||''
-    })).filter(t=>t.id);
-    document.getElementById('demoNotice').classList.add('hidden');
-    document.getElementById('lastUpdate').textContent='更新: '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-    renderAll();
-  }catch{ useDemo(); }
+function dl(due, status) {
+  const d = dd(due);
+  if (!due) return '';
+  const ov = ovGrade(due, status);
+  if (ov) return ov.label;
+  if (d === 0) return '今天到期';
+  if (d === 1) return '明天';
+  if (d <= 7)  return `${d}天後`;
+  return fm(due);
 }
-function useDemo(){ allT=JSON.parse(JSON.stringify(DEMO)); document.getElementById('lastUpdate').textContent='範例資料'; renderAll(); }
-function pcsv(t){
+function dueCls(due, status) {
+  const ov = ovGrade(due, status);
+  if (ov) return ov.dueCls;
+  const d = dd(due);
+  return d <= 7 ? 'ds' : 'nm';
+}
+
+// ── PINNED ──
+function isPinned(id) { return pinnedIds.includes(id); }
+function togglePin(id) {
+  if (isPinned(id)) pinnedIds = pinnedIds.filter(x => x !== id);
+  else pinnedIds.push(id);
+  localStorage.setItem('esg_pinned', JSON.stringify(pinnedIds));
+  renderAll();
+}
+function savePins() { localStorage.setItem('esg_pinned', JSON.stringify(pinnedIds)); }
+
+// ── LOAD ──
+async function load() {
+  if (!SID) { useDemo(); return; }
+  const url = `https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SNAME)}&t=${Date.now()}`;
+  try {
+    const r = await fetch(url); if (!r.ok) throw 0;
+    const rows = pcsv(await r.text());
+    if (rows.length < 2) { useDemo(); return; }
+    allT = rows.slice(1).map(r => ({
+      id:r[0]||'', name:r[1]||'', cat:r[2]||'', subcat:r[3]||'', status:r[4]||'',
+      pri:r[5]||'P2', start:r[6]||'', due:r[7]||'', pct:parseInt(r[8])||0,
+      assignee:r[9]||'', unit:r[10]||'', link:r[11]||'', note:r[12]||'', updated:r[13]||''
+    })).filter(t => t.id);
+    document.getElementById('demoNotice').classList.add('hidden');
+    document.getElementById('lastUpdate').textContent = '更新: ' + new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+    renderAll();
+  } catch { useDemo(); }
+}
+function useDemo() { allT = JSON.parse(JSON.stringify(DEMO)); document.getElementById('lastUpdate').textContent = '範例資料'; renderAll(); }
+function pcsv(t) {
   const rows=[]; let row=[],cur='',inQ=false;
-  for(let i=0;i<t.length;i++){
+  for (let i=0;i<t.length;i++) {
     const c=t[i];
     if(c==='"'){inQ=!inQ;}
     else if(c===','&&!inQ){row.push(cur.trim());cur='';}
@@ -410,42 +501,71 @@ function pcsv(t){
 }
 
 // ── FILTERS ──
-function getF(){
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  return allT.filter(t=>{
-    if(fCat&&t.cat!==fCat) return false;
-    if(fUnit&&!t.unit.includes(fUnit)) return false;
-    if(fPri&&t.pri!==fPri) return false;
-    if(q&&!`${t.name} ${t.note} ${t.cat} ${t.subcat}`.toLowerCase().includes(q)) return false;
+function getF() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const terms = q.split(/\s+/).filter(Boolean);
+  return allT.filter(t => {
+    if (fCat && t.cat !== fCat) return false;
+    if (fUnit && !t.unit.includes(fUnit)) return false;
+    if (fPri && t.pri !== fPri) return false;
+    if (terms.length) {
+      const hay = `${t.name} ${t.note} ${t.cat} ${t.subcat} ${t.unit}`.toLowerCase();
+      if (!terms.every(term => hay.includes(term))) return false;
+    }
     return true;
   });
 }
-function applyFilters(){ renderAll(); }
-document.querySelectorAll('.fchip').forEach(b=>b.addEventListener('click',function(){
-  const f=this.dataset.f,v=this.dataset.v;
-  document.querySelectorAll(`.fchip[data-f="${f}"]`).forEach(x=>x.classList.remove('on'));
+function applyFilters() { renderActiveFilters(); renderAll(); }
+
+function renderActiveFilters() {
+  const tags = [];
+  if (fCat)  tags.push({label: `類別: ${fCat}`,  clear: () => { fCat=''; document.querySelectorAll('[data-f="cat"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="cat"][data-v=""]').classList.add('on'); applyFilters(); }});
+  if (fUnit) tags.push({label: `單位: ${fUnit}`, clear: () => { fUnit=''; document.querySelectorAll('[data-f="unit"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="unit"][data-v=""]').classList.add('on'); applyFilters(); }});
+  if (fPri)  tags.push({label: `優先: ${fPri}`,  clear: () => { fPri=''; document.querySelectorAll('[data-f="pri"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="pri"][data-v=""]').classList.add('on'); applyFilters(); }});
+  const wrap = document.getElementById('activeFilters');
+  wrap.innerHTML = tags.map((t,i) => `<span class="af-tag">${es(t.label)}<button onclick="clearFilter(${i})">✕</button></span>`).join('');
+  wrap._clears = tags.map(t => t.clear);
+}
+function clearFilter(i) { document.getElementById('activeFilters')._clears[i](); }
+
+document.querySelectorAll('.fchip').forEach(b => b.addEventListener('click', function() {
+  const f=this.dataset.f, v=this.dataset.v;
+  document.querySelectorAll(`.fchip[data-f="${f}"]`).forEach(x => x.classList.remove('on'));
   this.classList.add('on');
-  if(f==='cat')fCat=v; if(f==='unit')fUnit=v; if(f==='pri')fPri=v;
+  if(f==='cat') fCat=v; if(f==='unit') fUnit=v; if(f==='pri') fPri=v;
   applyFilters();
 }));
-function toggleSort(){
-  const s=['due','pri','start'],l={due:'到期日',pri:'優先級',start:'開始日'};
-  curSort=s[(s.indexOf(curSort)+1)%s.length];
-  document.getElementById('sortLabel').textContent=l[curSort];
+
+function toggleSort() {
+  const s=['due','pri','start'], l={due:'到期日',pri:'優先級',start:'開始日'};
+  curSort = s[(s.indexOf(curSort)+1)%s.length];
+  document.getElementById('sortLabel').textContent = l[curSort];
   applyFilters();
 }
-function srt(tasks){
-  return [...tasks].sort((a,b)=>{
-    if(curSort==='due') return (a.due||'9999')>(b.due||'9999')?1:-1;
-    if(curSort==='pri') return a.pri>b.pri?1:-1;
-    return (a.start||'')>(b.start||'')?1:-1;
+function srt(tasks) {
+  return [...tasks].sort((a,b) => {
+    // pinned always first
+    const ap = isPinned(a.id), bp = isPinned(b.id);
+    if (ap && !bp) return -1; if (!ap && bp) return 1;
+    if (curSort==='due')   return (a.due||'9999') > (b.due||'9999') ? 1 : -1;
+    if (curSort==='pri')   return a.pri > b.pri ? 1 : -1;
+    return (a.start||'') > (b.start||'') ? 1 : -1;
   });
 }
 
-// ── RENDER ──
-function renderAll(){ const t=srt(getF()); rStats(t); rKB(t); rGantt(t); rCharts(allT); }
+// ── RENDER ALL ──
+function renderAll() {
+  const tasks = srt(getF());
+  rStats(tasks);
+  rPinned();
+  rWeekly();
+  rKB(tasks);
+  rGantt(tasks);
+  rCharts(allT);
+}
 
-function rStats(tasks){
+// ── STATS ──
+function rStats(tasks) {
   const t=td();
   const od=tasks.filter(x=>x.due&&dd(x.due)<0&&x.status!=='⚪️已完成');
   const tdd=tasks.filter(x=>x.due===t&&x.status!=='⚪️已完成');
@@ -456,7 +576,7 @@ function rStats(tasks){
     <div class="sc ur"><div class="sv r">${od.length+tdd.length}</div><div class="sl">🔴 今日到期＋逾期</div>
       <div class="si">${[...od,...tdd].slice(0,3).map(x=>`<span style="color:var(--red)">${x.name.slice(0,14)}</span>`).join('<br>')||'無'}</div></div>
     <div class="sc wa"><div class="sv y">${wd.length}</div><div class="sl">🟡 本週即將到期</div>
-      <div class="si">${wd.slice(0,3).map(x=>`${x.name.slice(0,12)} (${dl(x.due)})`).join('<br>')||'無'}</div></div>
+      <div class="si">${wd.slice(0,3).map(x=>`${x.name.slice(0,12)} (${dl(x.due,x.status)})`).join('<br>')||'無'}</div></div>
     <div class="sc in"><div class="sv b">${ip.length}</div><div class="sl">進行中項目</div>
       <div class="si">P0: ${ip.filter(x=>x.pri==='P0').length} &nbsp;P1: ${ip.filter(x=>x.pri==='P1').length} &nbsp;P2: ${ip.filter(x=>x.pri==='P2').length}</div></div>
     <div class="sc ok"><div class="sv g">${dn.length}</div><div class="sl">已完成項目</div>
@@ -465,6 +585,45 @@ function rStats(tasks){
       <div class="si">${[...new Set(tasks.map(x=>x.cat))].join(' · ')||'—'}</div></div>`;
 }
 
+// ── PINNED ZONE ──
+function rPinned() {
+  const pinned = allT.filter(t => isPinned(t.id));
+  const zone = document.getElementById('pinnedZone');
+  if (!pinned.length) { zone.classList.add('hidden'); return; }
+  zone.classList.remove('hidden');
+  document.getElementById('pinnedList').innerHTML = pinned.map(t => {
+    const ov = ovGrade(t.due, t.status);
+    const dueLabel = t.due ? dl(t.due, t.status) : '';
+    return `<div class="pinned-item" onclick="openModal('${es(t.id)}')">
+      <span>📌</span>
+      <span class="pinned-name">${es(t.name)}</span>
+      <div class="pinned-meta">
+        <span class="cpri ${pc(t.pri)}">${t.pri}</span>
+        ${ov ? `<span class="ov-badge ${ov.badgeCls}">${ov.label}</span>` : dueLabel ? `<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">${dueLabel}</span>` : ''}
+        ${t.link ? `<a href="${es(t.link)}" target="_blank" onclick="event.stopPropagation()" class="clink-icon" title="文件連結">📎</a>` : ''}
+        <button class="btn-pin pinned" onclick="event.stopPropagation();togglePin('${es(t.id)}')" title="取消釘選">📌</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── WEEKLY RECAP ──
+function rWeekly() {
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
+  const cutoffStr = cutoff.toISOString().slice(0,10);
+  const done = allT.filter(t => t.status==='⚪️已完成' && t.updated >= cutoffStr);
+  const zone = document.getElementById('weeklyZone');
+  if (!done.length) { zone.classList.add('hidden'); return; }
+  zone.classList.remove('hidden');
+  document.getElementById('weeklyList').innerHTML = done.map(t => `
+    <div class="weekly-item">
+      <span class="wcat">${es(t.cat)}</span>
+      <span>${es(t.name)}</span>
+      <span class="wdate">${es(t.updated)}</span>
+    </div>`).join('');
+}
+
+// ── KANBAN ──
 const COLS=[
   {l:'🔴 緊急', c:'cr',  f:t=>t.status.includes('緊急')||(dd(t.due)<0&&t.status!=='⚪️已完成')},
   {l:'🟡 進行中',c:'cy',  f:t=>t.status.includes('進行')&&dd(t.due)>=0},
@@ -472,19 +631,43 @@ const COLS=[
   {l:'🔵 排程中',c:'cb',  f:t=>t.status.includes('排程')},
   {l:'⚪️ 已完成',c:'cgr', f:t=>t.status.includes('已完成')},
 ];
-function rKB(tasks){
-  document.getElementById('kb').innerHTML=COLS.map(col=>{
-    const items=tasks.filter(col.f);
-    const cards=items.map(t=>{
-      const dcs=dc(t.due), cb=dcs==='ov'?'ov':dcs==='ds'?'ds':'';
-      return `<div class="tc ${cb}">
-        <div class="ctop"><div class="cname" onclick="openModal('${es(t.id)}')">${es(t.name)}</div><span class="cpri ${pc(t.pri)}">${t.pri}</span></div>
-        <div class="cmeta"><span class="ccat">${es(t.cat)}</span>${t.unit?`<span class="cunit">${es(t.unit)}</span>`:''} ${t.due?`<span class="cdue ${dcs}">${dl(t.due)}</span>`:''}</div>
+
+function buildLinkIcons(t) {
+  if (!t.link) return '';
+  let icon = '📎', title = '文件連結';
+  if (t.link.includes('t.me') || t.link.includes('telegram')) { icon='💬'; title='Telegram'; }
+  else if (t.link.includes('mail') || t.link.includes('gmail')) { icon='📧'; title='郵件'; }
+  return `<a href="${es(t.link)}" target="_blank" class="clink-icon" title="${title}" onclick="event.stopPropagation()">${icon}</a>`;
+}
+
+function rKB(tasks) {
+  document.getElementById('kb').innerHTML = COLS.map(col => {
+    const items = tasks.filter(col.f);
+    const cards = items.map(t => {
+      const ov = ovGrade(t.due, t.status);
+      const cardCls = ov ? ov.cls : (dd(t.due)>=0 && dd(t.due)<=7 ? 'ds' : '');
+      const pinned = isPinned(t.id);
+      return `<div class="tc ${cardCls} ${pinned?'pinned-card':''}">
+        <div class="ctop">
+          <div class="ctop-left">
+            <button class="btn-pin ${pinned?'pinned':''}" onclick="togglePin('${es(t.id)}')" title="${pinned?'取消釘選':'釘選'}">📌</button>
+            <div class="cname" onclick="openModal('${es(t.id)}')">${es(t.name)}</div>
+          </div>
+          <div class="ctop-right">
+            ${ov ? `<span class="ov-badge ${ov.badgeCls}">${ov.label}</span>` : ''}
+            <span class="cpri ${pc(t.pri)}">${t.pri}</span>
+          </div>
+        </div>
+        <div class="cmeta">
+          <span class="ccat">${es(t.cat)}</span>
+          ${t.unit?`<span class="cunit">${es(t.unit)}</span>`:''}
+          ${t.due?`<span class="cdue ${dueCls(t.due,t.status)}">${dl(t.due,t.status)}</span>`:''}
+        </div>
         <div class="pb"><div class="pf ${pfc(t.pri,t.pct)}" style="width:${t.pct}%"></div></div>
         <div class="cpl">${t.pct}%</div>
+        ${t.link ? `<div class="clinks">${buildLinkIcons(t)}</div>` : ''}
         <div class="cexp" id="ex-${es(t.id)}">
           ${t.note?`<div class="cnote">📝 ${es(t.note)}</div>`:''}
-          ${t.link?`<div class="clink"><a href="${es(t.link)}" target="_blank">🔗 文件連結</a></div>`:''}
           <div class="cid">${es(t.id)} · 更新: ${es(t.updated)}</div>
           <div class="cacts">
             <button class="btn btn-sm" onclick="openModal('${es(t.id)}')">✏️ 編輯</button>
@@ -493,20 +676,22 @@ function rKB(tasks){
           </div>
         </div>
       </div>`;
-    }).join('')||'<div class="noi">—</div>';
+    }).join('') || '<div class="noi">—</div>';
     return `<div class="kbc ${col.c}">
       <div class="kbh"><div class="kbht">${col.l}</div><span class="kbn">${items.length}</span></div>
       <div class="kbb" onclick="tog(event)">${cards}</div>
     </div>`;
   }).join('');
 }
-function tog(e){
-  const c=e.target.closest('.tc');
-  if(!c||e.target.closest('button')||e.target.closest('a')||e.target.closest('.cname')) return;
+
+function tog(e) {
+  const c = e.target.closest('.tc');
+  if (!c||e.target.closest('button')||e.target.closest('a')||e.target.closest('.cname')) return;
   c.querySelector('.cexp')?.classList.toggle('open');
 }
 
-function rGantt(tasks){
+// ── GANTT ──
+function rGantt(tasks) {
   const t0=new Date(); t0.setDate(t0.getDate()-30);
   const act=tasks.filter(t=>t.status!=='⚪️已完成'&&t.start&&t.due);
   const tp=(30/60)*100;
@@ -514,9 +699,9 @@ function rGantt(tasks){
   for(let i=0;i<=60;i+=5){const d=new Date(t0);d.setDate(d.getDate()+i);dt+=`<div class="gdt" style="left:${(i/60)*100}%">${d.getMonth()+1}/${d.getDate()}</div>`;}
   dt+=`<div class="gtd" style="left:${tp}%"></div><div class="gtdl" style="left:${tp}%">今天</div>`;
   const rows=act.slice(0,20).map(t=>{
-    const s0=Math.max(0,(new Date(t.start)-t0)/864e5), e0=Math.min(60,(new Date(t.due)-t0)/864e5);
+    const s0=Math.max(0,(new Date(t.start)-t0)/864e5),e0=Math.min(60,(new Date(t.due)-t0)/864e5);
     if(e0<0||s0>60) return '';
-    const lft=(s0/60)*100, wid=Math.max(0.5,((e0-s0)/60)*100);
+    const lft=(s0/60)*100,wid=Math.max(0.5,((e0-s0)/60)*100);
     const cls=t.status.includes('緊急')||dd(t.due)<0?'gbr':t.status.includes('待處理')||t.status.includes('排程')?'gbb':'gby';
     return `<div class="gr"><div class="gl" title="${es(t.name)}">${es(t.name)}</div>
       <div class="gt"><div class="gtd" style="left:${tp}%"></div>
@@ -527,8 +712,9 @@ function rGantt(tasks){
     ${rows||'<div class="gr"><div class="gl" style="width:100%;border-right:none;color:var(--text3)">無活動項目</div></div>'}`;
 }
 
+// ── CHARTS ──
 const CC={'查資料':'#3b7dd8','翻譯':'#f0b429','信件':'#e05252','追蹤':'#3dc97e','會議':'#a78bfa','報告':'#4ba3d9'};
-function rCharts(tasks){
+function rCharts(tasks) {
   const cc={};
   tasks.forEach(t=>{cc[t.cat]=(cc[t.cat]||0)+1;});
   const tot=tasks.length||1;
@@ -541,10 +727,10 @@ function rCharts(tasks){
   let bh='<div class="bc">'+Object.entries(ic).sort((a,b)=>b[1]-a[1]).map(([k,v])=>
     `<div class="br"><div class="blbl">${k}</div><div class="bt"><div class="bf" style="width:${(v/mb)*100}%;background:${CC[k]||'#6b7ea0'}"></div></div><div class="bv">${v}</div></div>`
   ).join('')+'</div>';
-  const ms=['12月','1月','2月','3月','4月','5月'];
+  const months=['12月','1月','2月','3月','4月','5月'];
   const ov=[2,3,1,4,2,tasks.filter(t=>dd(t.due)<0&&t.status!=='⚪️已完成').length];
   const mo=Math.max(...ov,1);
-  let lh='<div class="ml">'+ms.map((m,i)=>
+  let lh='<div class="ml">'+months.map((m,i)=>
     `<div class="mlr"><div class="mlm">${m}</div><div class="mlb"><div class="mlf" style="width:${(ov[i]/mo)*100}%"></div></div><div class="mlv">${ov[i]}</div></div>`
   ).join('')+'</div>';
   document.getElementById('charts').innerHTML=`
@@ -552,8 +738,8 @@ function rCharts(tasks){
     <div class="chc"><div class="cht">進行中（依類別）</div>${bh||'<div style="color:var(--text3);font-size:12px">無資料</div>'}</div>
     <div class="chc"><div class="cht">逾期趨勢（近6月）</div>${lh}</div>`;
 }
-function bpie(cc,tot){
-  const e=Object.entries(cc); let p='',a=-Math.PI/2;
+function bpie(cc,tot) {
+  const e=Object.entries(cc);let p='',a=-Math.PI/2;
   e.forEach(([k,v])=>{
     const ang=(v/tot)*Math.PI*2,x1=60+50*Math.cos(a),y1=60+50*Math.sin(a),x2=60+50*Math.cos(a+ang),y2=60+50*Math.sin(a+ang);
     p+=`<path d="M60,60 L${x1},${y1} A50,50 0 ${ang>Math.PI?1:0},1 ${x2},${y2} Z" fill="${CC[k]||'#6b7ea0'}" opacity=".85"/>`;
@@ -563,95 +749,94 @@ function bpie(cc,tot){
 }
 
 // ── MODAL ──
-function openModal(id){
-  const t=id?allT.find(x=>x.id===id):null;
-  document.getElementById('moTitle').textContent=t?'編輯任務':'新增任務';
-  document.getElementById('eid').value=id||'';
-  document.getElementById('fName').value=t?.name||'';
-  document.getElementById('fCat').value=t?.cat||'查資料';
-  document.getElementById('fSub').value=t?.subcat||'';
-  document.getElementById('fStat').value=t?.status||'🟢待處理';
-  document.getElementById('fPri').value=t?.pri||'P1';
-  document.getElementById('fStart').value=t?.start||td();
-  document.getElementById('fDue').value=t?.due||'';
-  document.getElementById('fAsgn').value=t?.assignee||'我';
-  document.getElementById('fUnit').value=t?.unit||'';
-  document.getElementById('fLink').value=t?.link||'';
-  document.getElementById('fNote').value=t?.note||'';
-  const pv=t?.pct||0;
-  document.getElementById('fPct').value=pv;
-  document.getElementById('fpv').textContent=pv+'%';
-  document.getElementById('sbtn').textContent=t?'儲存變更':'新增';
+function openModal(id) {
+  const t = id ? allT.find(x=>x.id===id) : null;
+  document.getElementById('moTitle').textContent = t ? '編輯任務' : '新增任務';
+  document.getElementById('eid').value = id||'';
+  document.getElementById('fName').value    = t?.name||'';
+  document.getElementById('fCat').value     = t?.cat||'查資料';
+  document.getElementById('fSub').value     = t?.subcat||'';
+  document.getElementById('fStat').value    = t?.status||'🟢待處理';
+  document.getElementById('fPri').value     = t?.pri||'P1';
+  document.getElementById('fStart').value   = t?.start||td();
+  document.getElementById('fDue').value     = t?.due||'';
+  document.getElementById('fAsgn').value    = t?.assignee||'我';
+  document.getElementById('fUnit').value    = t?.unit||'';
+  document.getElementById('fLink').value    = t?.link||'';
+  document.getElementById('fNote').value    = t?.note||'';
+  const pv = t?.pct||0;
+  document.getElementById('fPct').value = pv;
+  document.getElementById('fpv').textContent = pv+'%';
+  document.getElementById('sbtn').textContent = t ? '儲存變更' : '新增';
   document.getElementById('mo').classList.add('open');
   setTimeout(()=>document.getElementById('fName').focus(),100);
 }
-function closeMo(){ document.getElementById('mo').classList.remove('open'); }
-function moClick(e){ if(e.target===document.getElementById('mo')) closeMo(); }
+function closeMo() { document.getElementById('mo').classList.remove('open'); }
+function moClick(e) { if(e.target===document.getElementById('mo')) closeMo(); }
 
-async function submitTask(){
-  if(submitting) return;
-  const name=document.getElementById('fName').value.trim();
-  if(!name){ toast('請輸入項目名稱','e'); return; }
-  const id=document.getElementById('eid').value;
-  const data={
-    action:id?'update':'add', id, name,
-    cat:document.getElementById('fCat').value,
-    subcat:document.getElementById('fSub').value,
-    status:document.getElementById('fStat').value,
-    pri:document.getElementById('fPri').value,
-    start:document.getElementById('fStart').value,
-    due:document.getElementById('fDue').value,
-    pct:document.getElementById('fPct').value,
-    assignee:document.getElementById('fAsgn').value,
-    unit:document.getElementById('fUnit').value,
-    link:document.getElementById('fLink').value,
-    note:document.getElementById('fNote').value,
+async function submitTask() {
+  if (submitting) return;
+  const name = document.getElementById('fName').value.trim();
+  if (!name) { toast('請輸入項目名稱','e'); return; }
+  const id = document.getElementById('eid').value;
+  const data = {
+    action: id?'update':'add', id, name,
+    cat:      document.getElementById('fCat').value,
+    subcat:   document.getElementById('fSub').value,
+    status:   document.getElementById('fStat').value,
+    pri:      document.getElementById('fPri').value,
+    start:    document.getElementById('fStart').value,
+    due:      document.getElementById('fDue').value,
+    pct:      document.getElementById('fPct').value,
+    assignee: document.getElementById('fAsgn').value,
+    unit:     document.getElementById('fUnit').value,
+    link:     document.getElementById('fLink').value,
+    note:     document.getElementById('fNote').value,
   };
-  if(!SURL){
-    // local demo mode
-    if(id){ const i=allT.findIndex(t=>t.id===id); if(i>=0) Object.assign(allT[i],{...data,updated:td()}); }
-    else{
-      const mx=allT.reduce((m,t)=>{const n=parseInt(t.id.split('-').pop()||0);return Math.max(m,n);},0);
-      allT.push({...data,id:`ESG-${new Date().getFullYear()}-${String(mx+1).padStart(3,'0')}`,updated:td()});
-    }
+  if (!SURL) {
+    if (id) { const i=allT.findIndex(t=>t.id===id); if(i>=0) Object.assign(allT[i],{...data,updated:td()}); }
+    else { const mx=allT.reduce((m,t)=>{const n=parseInt(t.id.split('-').pop()||0);return Math.max(m,n);},0); allT.push({...data,id:`ESG-${new Date().getFullYear()}-${String(mx+1).padStart(3,'0')}`,updated:td()}); }
     closeMo(); renderAll(); toast(id?'已更新（範例模式）':'已新增（範例模式）','i'); return;
   }
   submitting=true; document.getElementById('sbtn').textContent='儲存中…';
-  try{
+  try {
     const r=await fetch(SURL,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}});
     const res=await r.json();
     if(res.ok){ closeMo(); toast(id?'已更新任務':'已新增任務','s'); setTimeout(load,1500); }
     else toast('寫入失敗：'+res.error,'e');
-  }catch(e){ toast('連線錯誤：'+e.message,'e'); }
-  finally{ submitting=false; document.getElementById('sbtn').textContent='儲存'; }
+  } catch(e) { toast('連線錯誤：'+e.message,'e'); }
+  finally { submitting=false; document.getElementById('sbtn').textContent='儲存'; }
 }
 
-async function qComplete(id){
-  if(!SURL){ const t=allT.find(x=>x.id===id); if(t){t.status='⚪️已完成';t.pct=100;t.updated=td();} renderAll(); toast('已標記完成（範例模式）','i'); return; }
-  try{
+// ── QUICK ACTIONS ──
+async function qComplete(id) {
+  if (!SURL) { const t=allT.find(x=>x.id===id); if(t){t.status='⚪️已完成';t.pct=100;t.updated=td();} renderAll(); toast('已標記完成（範例模式）','i'); return; }
+  try {
     const r=await fetch(SURL,{method:'POST',body:JSON.stringify({action:'complete',id}),headers:{'Content-Type':'application/json'}});
     const res=await r.json();
     if(res.ok){toast('✅ 已標記完成','s');setTimeout(load,1500);}else toast('失敗：'+res.error,'e');
-  }catch{ toast('連線錯誤','e'); }
+  } catch { toast('連線錯誤','e'); }
 }
 function qDel(id,name){ if(!confirm(`確定刪除「${name}」？\n此操作無法復原。`)) return; doDelete(id); }
-async function doDelete(id){
-  if(!SURL){ allT=allT.filter(t=>t.id!==id); renderAll(); toast('已刪除（範例模式）','i'); return; }
-  try{
+async function doDelete(id) {
+  if (!SURL) { allT=allT.filter(t=>t.id!==id); if(isPinned(id)){pinnedIds=pinnedIds.filter(x=>x!==id);savePins();} renderAll(); toast('已刪除（範例模式）','i'); return; }
+  try {
     const r=await fetch(SURL,{method:'POST',body:JSON.stringify({action:'delete',id}),headers:{'Content-Type':'application/json'}});
     const res=await r.json();
-    if(res.ok){toast('已刪除','s');setTimeout(load,1500);}else toast('刪除失敗：'+res.error,'e');
-  }catch{ toast('連線錯誤','e'); }
+    if(res.ok){if(isPinned(id)){pinnedIds=pinnedIds.filter(x=>x!==id);savePins();} toast('已刪除','s');setTimeout(load,1500);}else toast('刪除失敗：'+res.error,'e');
+  } catch { toast('連線錯誤','e'); }
 }
 
-function toast(msg,type='i',ms=3200){
-  const w=document.getElementById('tw'), d=document.createElement('div');
+// ── TOAST ──
+function toast(msg,type='i',ms=3200) {
+  const w=document.getElementById('tw'),d=document.createElement('div');
   d.className=`toast ${type}`;
   d.textContent=(type==='s'?'✅ ':type==='e'?'❌ ':'ℹ️ ')+msg;
   w.appendChild(d); setTimeout(()=>d.remove(),ms);
 }
 
-function toggleTheme(){
+// ── THEME & CONFIG ──
+function toggleTheme() {
   document.body.classList.toggle('light');
   const l=document.body.classList.contains('light');
   document.getElementById('themeBtn').textContent=l?'☀️':'🌙';
@@ -659,7 +844,7 @@ function toggleTheme(){
 }
 if(localStorage.getItem('esg_theme')==='light'){document.body.classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
 
-function saveConfig(){
+function saveConfig() {
   const id=document.getElementById('sid').value.trim();
   const url=document.getElementById('surl').value.trim();
   if(id){SID=id;localStorage.setItem('esg_sid',id);}
@@ -670,9 +855,10 @@ function saveConfig(){
 if(SID) document.getElementById('sid').value=SID;
 if(SURL) document.getElementById('surl').value=SURL;
 
+// ── INIT ──
 load();
-setInterval(load,5*60*1000);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMo();});
+setInterval(load, 5*60*1000);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMo(); });
 </script>
 </body>
 </html>
