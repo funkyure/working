@@ -7,21 +7,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --bg:#0b0f1a;--bg2:#111827;--bg3:#1a2235;--bg4:#1e2d45;
   --border:rgba(99,144,220,0.15);--border2:rgba(99,144,220,0.28);
   --text:#e8edf5;--text2:#8fa3be;--text3:#5a7294;
   --accent:#3b7dd8;--accent2:#5b9af0;
   --red:#e05252;--red-bg:rgba(224,82,82,0.12);
-  --yellow:#f0b429;--yellow-bg:rgba(240,180,41,0.12);
-  --orange:#f07829;--orange-bg:rgba(240,120,41,0.15);
+  --yellow:#f0b429;--orange:#f07829;
   --green:#3dc97e;--blue:#4ba3d9;--gray:#6b7ea0;
-  --pin:#f0b429;
   --font:'Noto Sans TC',sans-serif;--mono:'JetBrains Mono',monospace;
   --radius:10px;--shadow:0 4px 24px rgba(0,0,0,0.4);
 }
 body.light{
-  --bg:#f0f4fa;--bg2:#ffffff;--bg3:#e8eef8;--bg4:#d8e4f4;
+  --bg:#f0f4fa;--bg2:#fff;--bg3:#e8eef8;--bg4:#d8e4f4;
   --border:rgba(59,125,216,0.15);--border2:rgba(59,125,216,0.3);
   --text:#1a2a3f;--text2:#3f5a80;--text3:#8aa0be;
   --shadow:0 4px 24px rgba(59,125,216,0.1);
@@ -47,8 +45,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .btn-del{background:var(--red-bg);border-color:rgba(224,82,82,0.35);color:var(--red);}
 .btn-del:hover{background:var(--red);color:#fff;}
 .btn-sm{padding:3px 8px;font-size:11px;border-radius:6px;}
-.btn-pin{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;opacity:0.4;transition:opacity .2s;}
-.btn-pin:hover,.btn-pin.pinned{opacity:1;}
+.btn-pin{background:none;border:none;cursor:pointer;font-size:13px;padding:2px;opacity:0.35;transition:opacity .2s;line-height:1;}
+.btn-pin:hover,.btn-pin.on{opacity:1;}
 .lup{font-size:11px;color:var(--text3);white-space:nowrap;}
 
 /* FILTER BAR */
@@ -57,10 +55,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .fchip{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:14px;padding:3px 11px;cursor:pointer;font-size:12px;font-family:var(--font);transition:all .2s;}
 .fchip:hover,.fchip.on{border-color:var(--accent);color:var(--accent2);background:rgba(59,125,216,0.12);}
 .fsep{color:var(--border2);}
-/* Active filter tags */
-.active-filters{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:8px;}
-.af-tag{display:flex;align-items:center;gap:4px;background:rgba(59,125,216,0.18);border:1px solid rgba(59,125,216,0.4);border-radius:12px;padding:2px 8px;font-size:11px;color:var(--accent2);}
-.af-tag button{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:12px;padding:0;line-height:1;}
+.aftags{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:4px;}
+.aftag{display:flex;align-items:center;gap:4px;background:rgba(59,125,216,0.18);border:1px solid rgba(59,125,216,0.4);border-radius:12px;padding:2px 8px;font-size:11px;color:var(--accent2);}
+.aftag button{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:12px;padding:0;line-height:1;}
 
 /* MAIN */
 .main{padding:16px 20px;max-width:1600px;margin:0 auto;}
@@ -80,23 +77,23 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sl{font-size:11px;color:var(--text3);margin-top:4px;}
 .si{font-size:11px;color:var(--text2);margin-top:6px;line-height:1.6;}
 
-/* PINNED ZONE */
-.pinned-zone{background:rgba(240,180,41,0.06);border:1px solid rgba(240,180,41,0.25);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;}
-.pinned-zone-title{font-size:11px;font-weight:700;color:var(--pin);letter-spacing:1px;margin-bottom:10px;}
-.pinned-list{display:flex;flex-direction:column;gap:6px;}
-.pinned-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid rgba(240,180,41,0.2);border-radius:8px;padding:8px 12px;cursor:pointer;}
-.pinned-item:hover{border-color:rgba(240,180,41,0.4);}
-.pinned-name{font-size:13px;font-weight:500;flex:1;}
-.pinned-meta{display:flex;align-items:center;gap:8px;}
+/* PINNED */
+.pzone{background:rgba(240,180,41,0.06);border:1px solid rgba(240,180,41,0.25);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;}
+.pzone-t{font-size:11px;font-weight:700;color:var(--yellow);letter-spacing:1px;margin-bottom:10px;}
+.plist{display:flex;flex-direction:column;gap:6px;}
+.pitem{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid rgba(240,180,41,0.2);border-radius:8px;padding:8px 12px;cursor:pointer;transition:border-color .2s;}
+.pitem:hover{border-color:rgba(240,180,41,0.4);}
+.pname{font-size:13px;font-weight:500;flex:1;}
+.pmeta{display:flex;align-items:center;gap:8px;}
 
-/* WEEKLY RECAP */
-.weekly-recap{background:rgba(61,201,126,0.06);border:1px solid rgba(61,201,126,0.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;}
-.weekly-recap-title{font-size:11px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:10px;}
-.weekly-list{display:flex;flex-direction:column;gap:4px;}
-.weekly-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);}
-.weekly-item:last-child{border-bottom:none;}
-.weekly-item .wcat{font-size:10px;background:var(--bg3);border-radius:4px;padding:2px 6px;color:var(--text3);}
-.weekly-item .wdate{font-size:10px;color:var(--text3);font-family:var(--mono);margin-left:auto;}
+/* WEEKLY */
+.wzone{background:rgba(61,201,126,0.06);border:1px solid rgba(61,201,126,0.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;}
+.wzone-t{font-size:11px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:10px;}
+.wlist{display:flex;flex-direction:column;gap:4px;}
+.witem{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);}
+.witem:last-child{border-bottom:none;}
+.wcat{font-size:10px;background:var(--bg3);border-radius:4px;padding:2px 6px;color:var(--text3);}
+.wdate{font-size:10px;color:var(--text3);font-family:var(--mono);margin-left:auto;}
 
 /* KANBAN */
 .kb{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
@@ -106,45 +103,42 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .kbc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;min-height:200px;}
 .kbh{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg2);}
 .kbht{font-size:12px;font-weight:600;}
-.kbn{font-size:10px;font-family:var(--mono);font-weight:600;background:var(--bg3);border-radius:10px;padding:2px 8px;color:var(--text3);}
+.kbn{font-size:10px;font-family:var(--mono);background:var(--bg3);border-radius:10px;padding:2px 8px;color:var(--text3);}
 .kbb{padding:10px;display:flex;flex-direction:column;gap:8px;}
 .cr .kbht{color:var(--red);}.cy .kbht{color:var(--yellow);}.cg .kbht{color:var(--green);}.cb .kbht{color:var(--blue);}.cgr .kbht{color:var(--gray);}
 
 /* CARD */
-.tc{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:border-color .2s,box-shadow .2s;}
-.tc.ov1{border-left:3px solid var(--yellow);background:rgba(240,180,41,0.04);}   /* < 7 days */
-.tc.ov2{border-left:3px solid var(--orange);background:rgba(240,120,41,0.05);}   /* 7-30 days */
-.tc.ov3{border-left:3px solid var(--red);background:rgba(224,82,82,0.06);}       /* > 30 days */
-.tc.ov3 .cname{font-weight:700;}
+.tc{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;transition:border-color .2s;}
+.tc.ov1{border-left:3px solid var(--yellow);background:rgba(240,180,41,0.04);}
+.tc.ov2{border-left:3px solid var(--orange);background:rgba(240,120,41,0.05);}
+.tc.ov3{border-left:3px solid var(--red);background:rgba(224,82,82,0.06);}
 .tc.ds{border-left:3px solid var(--yellow);}
-.tc.pinned-card{border-top:2px solid var(--pin);}
+.tc.pcrd{border-top:2px solid var(--yellow);}
 .ctop{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px;}
-.ctop-left{display:flex;align-items:flex-start;gap:6px;flex:1;min-width:0;}
+.ctop-l{display:flex;align-items:flex-start;gap:5px;flex:1;min-width:0;}
 .cname{font-size:13px;font-weight:500;line-height:1.3;cursor:pointer;flex:1;}
 .cname:hover{color:var(--accent2);}
-.ctop-right{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.ctop-r{display:flex;align-items:center;gap:4px;flex-shrink:0;}
 .cpri{font-size:10px;font-weight:700;font-family:var(--mono);border-radius:4px;padding:2px 6px;white-space:nowrap;}
 .pp0{background:rgba(224,82,82,0.2);color:var(--red);}
 .pp1{background:rgba(240,180,41,0.15);color:var(--yellow);}
 .pp2{background:rgba(75,163,217,0.15);color:var(--blue);}
+.ovb{font-size:9px;font-weight:700;border-radius:4px;padding:1px 5px;white-space:nowrap;}
+.ovb.ov1{background:rgba(240,180,41,0.2);color:var(--yellow);}
+.ovb.ov2{background:rgba(240,120,41,0.2);color:var(--orange);}
+.ovb.ov3{background:rgba(224,82,82,0.2);color:var(--red);}
 .cmeta{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
 .ccat{font-size:10px;color:var(--text3);background:var(--bg4);border-radius:4px;padding:2px 7px;}
 .cunit{font-size:10px;color:var(--text3);}
 .cdue{font-size:11px;font-family:var(--mono);}
-.cdue.ov{color:var(--red);font-weight:600;}
-.cdue.ov-orange{color:var(--orange);font-weight:600;}
-.cdue.ov-yellow{color:var(--yellow);}
+.cdue.dov{color:var(--red);font-weight:600;}
+.cdue.dor{color:var(--orange);font-weight:600;}
+.cdue.dyw{color:var(--yellow);}
 .cdue.ds{color:var(--yellow);}
 .cdue.nm{color:var(--text3);}
-/* Overdue badge */
-.ov-badge{font-size:9px;font-weight:700;border-radius:4px;padding:1px 5px;white-space:nowrap;}
-.ov-badge.ov1{background:rgba(240,180,41,0.2);color:var(--yellow);}
-.ov-badge.ov2{background:rgba(240,120,41,0.2);color:var(--orange);}
-.ov-badge.ov3{background:rgba(224,82,82,0.2);color:var(--red);}
-/* Quick links */
-.clinks{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
-.clink-icon{font-size:14px;text-decoration:none;opacity:0.7;transition:opacity .2s;}
-.clink-icon:hover{opacity:1;}
+.clinks{display:flex;gap:6px;margin-top:5px;}
+.cli{font-size:15px;text-decoration:none;opacity:.65;transition:opacity .2s;}
+.cli:hover{opacity:1;}
 .pb{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:2px;}
 .pf{height:100%;border-radius:2px;transition:width .4s;}
 .pf0{background:var(--red);}.pf1{background:var(--yellow);}.pf2{background:var(--accent);}.pfd{background:var(--green);}
@@ -282,7 +276,7 @@ textarea.fc{resize:vertical;min-height:70px;}
   <button class="fchip" data-f="pri" data-v="P0">P0</button>
   <button class="fchip" data-f="pri" data-v="P1">P1</button>
   <button class="fchip" data-f="pri" data-v="P2">P2</button>
-  <div class="active-filters" id="activeFilters"></div>
+  <div class="aftags" id="aftags"></div>
 </div>
 
 <div class="main">
@@ -307,45 +301,40 @@ textarea.fc{resize:vertical;min-height:70px;}
         <button class="btn btn-pri btn-sm" onclick="saveConfig()">儲存並重新載入</button>
         <button class="btn btn-sm" onclick="document.getElementById('cfgp').classList.add('hidden')">取消</button>
       </div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.7">
+        📌 Spreadsheet ID：Sheets 網址中 /d/ 與 /edit 之間的字串<br>
+        📌 Apps Script 網址：部署 → 網頁應用程式 → 執行身分「我」→ 存取「任何人」→ 複製網址
+      </div>
     </div>
   </div>
 
-  <!-- ZONE 1: 今日戰情 -->
   <div class="sec">
     <div class="ztitle">今日戰情</div>
     <div class="srow" id="statsRow"><div class="ld"><div class="sp"></div></div></div>
-
-    <!-- 釘選區 -->
-    <div id="pinnedZone" class="pinned-zone hidden">
-      <div class="pinned-zone-title">📌 優先關注</div>
-      <div class="pinned-list" id="pinnedList"></div>
+    <div id="pzone" class="pzone hidden">
+      <div class="pzone-t">📌 優先關注</div>
+      <div class="plist" id="plist"></div>
     </div>
-
-    <!-- 本週完成 -->
-    <div id="weeklyZone" class="weekly-recap hidden">
-      <div class="weekly-recap-title">✅ 本週完成</div>
-      <div class="weekly-list" id="weeklyList"></div>
+    <div id="wzone" class="wzone hidden">
+      <div class="wzone-t">✅ 本週完成</div>
+      <div class="wlist" id="wlist"></div>
     </div>
   </div>
 
-  <!-- ZONE 2: 任務看板 -->
   <div class="sec">
     <div class="ztitle">任務看板</div>
     <div class="kb" id="kb"><div class="ld" style="grid-column:1/-1"><div class="sp"></div></div></div>
   </div>
 
-  <!-- ZONE 3: 時間軸 -->
   <div class="sec">
     <div class="ztitle">時間軸（前後 30 天）</div>
     <div class="gw"><div class="gi"><div id="gantt"></div></div></div>
   </div>
 
-  <!-- ZONE 4: 統計 -->
   <div class="sec">
     <div class="ztitle">統計分析</div>
     <div class="chrow" id="charts"><div class="ld" style="grid-column:1/-1"><div class="sp"></div></div></div>
   </div>
-
 </div>
 
 <!-- MODAL -->
@@ -406,67 +395,69 @@ let SID  = localStorage.getItem('esg_sid') || '';
 let SURL = localStorage.getItem('esg_surl') || '';
 const SNAME = 'ESG_Work';
 let allT = [], curSort = 'due', fCat = '', fUnit = '', fPri = '', submitting = false;
-let pinnedIds = JSON.parse(localStorage.getItem('esg_pinned') || '[]');
+let pins = JSON.parse(localStorage.getItem('esg_pins') || '[]');
 
-// ── DEMO DATA ──
+// ── DEMO ──
 const DEMO = [
   {id:'ESG-2025-001',name:'GRI 2024準則更新研析',cat:'查資料',subcat:'GRI',status:'🟡進行中',pri:'P1',start:'2025-03-01',due:'2025-06-15',pct:60,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'需整理 GRI 302/305 能源與排放新要求',updated:'2025-05-10'},
   {id:'ESG-2025-002',name:'金管會函文回覆—綠色金融行動方案3.0',cat:'信件',subcat:'綠色金融',status:'🔴緊急',pri:'P0',start:'2025-05-12',due:'2025-05-20',pct:30,assignee:'我',unit:'金管會',link:'',note:'須附上本行2024年綠色授信佔比',updated:'2025-05-15'},
   {id:'ESG-2025-003',name:'2024永續報告書中英翻譯',cat:'翻譯',subcat:'永續報告書',status:'🔴緊急',pri:'P0',start:'2025-04-20',due:'2025-05-25',pct:45,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'英文版共112頁，目前完成至第5章',updated:'2025-05-14'},
-  {id:'ESG-2025-004',name:'董事會ESG簡報製作（Q1報告）',cat:'報告',subcat:'TCFD',status:'🟡進行中',pri:'P1',start:'2025-05-01',due:'2025-05-28',pct:70,assignee:'我',unit:'董事會',link:'',note:'TCFD氣候情境分析頁面已完成，待財務長確認數字',updated:'2025-05-13'},
+  {id:'ESG-2025-004',name:'董事會ESG簡報製作（Q1報告）',cat:'報告',subcat:'TCFD',status:'🟡進行中',pri:'P1',start:'2025-05-01',due:'2025-05-28',pct:70,assignee:'我',unit:'董事會',link:'',note:'TCFD氣候情境分析頁面已完成',updated:'2025-05-13'},
   {id:'ESG-2025-005',name:'TCFD氣候風險揭露架構建立',cat:'查資料',subcat:'TCFD',status:'🟢待處理',pri:'P1',start:'2025-06-01',due:'2025-07-31',pct:10,assignee:'外部顧問',unit:'風控部',link:'',note:'委外給資誠顧問',updated:'2025-05-08'},
   {id:'ESG-2025-006',name:'綠色貸款專案進度追蹤',cat:'追蹤',subcat:'綠色金融',status:'🟡進行中',pri:'P1',start:'2025-01-01',due:'2025-12-31',pct:38,assignee:'同事',unit:'業務部',link:'',note:'每月統計綠色授信新增金額',updated:'2025-05-12'},
   {id:'ESG-2025-007',name:'公平待客原則自評報告',cat:'報告',subcat:'公平待客',status:'🔵排程中',pri:'P2',start:'2025-07-01',due:'2025-08-31',pct:0,assignee:'我',unit:'金管會',link:'',note:'依金管會2024年修訂版架構進行',updated:'2025-05-01'},
   {id:'ESG-2025-008',name:'永續發展委員會議事錄整理',cat:'會議',subcat:'',status:'⚪️已完成',pri:'P2',start:'2025-04-15',due:'2025-04-30',pct:100,assignee:'我',unit:'董事會',link:'https://drive.google.com',note:'Q1永續委員會議事錄已完成',updated:'2025-05-12'},
   {id:'ESG-2025-009',name:'同業ESG評分比較分析',cat:'查資料',subcat:'',status:'🟢待處理',pri:'P2',start:'2025-05-20',due:'2025-06-30',pct:5,assignee:'我',unit:'董事會',link:'',note:'比較國泰、富邦、中信三家銀行',updated:'2025-05-10'},
-  {id:'ESG-2025-010',name:'碳排放盤查第三方查驗協調',cat:'追蹤',subcat:'',status:'🔴緊急',pri:'P0',start:'2025-05-08',due:'2025-05-22',pct:55,assignee:'外部顧問',unit:'風控部',link:'',note:'BSI查驗進行中，需提供範疇二電力數據修正版',updated:'2025-05-16'},
+  {id:'ESG-2025-010',name:'碳排放盤查第三方查驗協調',cat:'追蹤',subcat:'',status:'🔴緊急',pri:'P0',start:'2025-05-08',due:'2025-05-22',pct:55,assignee:'外部顧問',unit:'風控部',link:'',note:'BSI查驗進行中，需提供範疇二電力數據',updated:'2025-05-16'},
 ];
 
 // ── UTILS ──
-const td = () => new Date().toISOString().slice(0,10);
-const dd = s => Math.floor((new Date(s)-new Date(td()))/864e5);
-const fm = s => { if(!s) return ''; const d=new Date(s); return `${d.getMonth()+1}/${d.getDate()}`; };
-const es = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const pc = p => p==='P0'?'pp0':p==='P1'?'pp1':'pp2';
+const td  = () => new Date().toISOString().slice(0,10);
+const dd  = s  => Math.floor((new Date(s) - new Date(td())) / 864e5);
+const fm  = s  => { if(!s) return ''; const d=new Date(s); return `${d.getMonth()+1}/${d.getDate()}`; };
+const es  = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const pc  = p  => p==='P0'?'pp0':p==='P1'?'pp1':'pp2';
 const pfc = (p,v) => v===100?'pfd':p==='P0'?'pf0':p==='P1'?'pf1':'pf2';
 
-// Overdue grading: returns {cls, badgeCls, dueCls, label}
-function ovGrade(due, status) {
-  if (status === '⚪️已完成') return null;
-  const d = dd(due);
-  if (!due || d >= 0) return null;
-  const days = -d;
-  if (days <= 7)  return {cls:'ov1', badgeCls:'ov1', dueCls:'ov-yellow', label:`逾期${days}天`};
-  if (days <= 30) return {cls:'ov2', badgeCls:'ov2', dueCls:'ov-orange', label:`逾期${days}天`};
-  return           {cls:'ov3', badgeCls:'ov3', dueCls:'ov',        label:`逾期${days}天`};
+function ovInfo(due, status) {
+  if (!due || status==='⚪️已完成') return null;
+  const d = -dd(due); if (d <= 0) return null;
+  if (d <= 7)  return {cls:'ov1', lbl:`逾期${d}天`, dcls:'dyw'};
+  if (d <= 30) return {cls:'ov2', lbl:`逾期${d}天`, dcls:'dor'};
+  return              {cls:'ov3', lbl:`逾期${d}天`, dcls:'dov'};
 }
-
-function dl(due, status) {
+function dueLabel(due, status) {
+  const ov = ovInfo(due, status);
+  if (ov) return ov.lbl;
   const d = dd(due);
   if (!due) return '';
-  const ov = ovGrade(due, status);
-  if (ov) return ov.label;
-  if (d === 0) return '今天到期';
-  if (d === 1) return '明天';
-  if (d <= 7)  return `${d}天後`;
+  if (d===0) return '今天到期'; if (d===1) return '明天'; if (d<=7) return `${d}天後`;
   return fm(due);
 }
 function dueCls(due, status) {
-  const ov = ovGrade(due, status);
-  if (ov) return ov.dueCls;
-  const d = dd(due);
-  return d <= 7 ? 'ds' : 'nm';
+  const ov = ovInfo(due, status); if (ov) return ov.dcls;
+  return dd(due) <= 7 ? 'ds' : 'nm';
 }
 
-// ── PINNED ──
-function isPinned(id) { return pinnedIds.includes(id); }
+// ── KEY API CALL (form-urlencoded, no preflight) ──
+async function callScript(data) {
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([k, v]) => params.append(k, v ?? ''));
+  const r = await fetch(SURL, {
+    method: 'POST',
+    body: params.toString(),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  });
+  return r.json();
+}
+
+// ── PINS ──
+const isPinned = id => pins.includes(id);
 function togglePin(id) {
-  if (isPinned(id)) pinnedIds = pinnedIds.filter(x => x !== id);
-  else pinnedIds.push(id);
-  localStorage.setItem('esg_pinned', JSON.stringify(pinnedIds));
+  pins = isPinned(id) ? pins.filter(x=>x!==id) : [...pins, id];
+  localStorage.setItem('esg_pins', JSON.stringify(pins));
   renderAll();
 }
-function savePins() { localStorage.setItem('esg_pinned', JSON.stringify(pinnedIds)); }
 
 // ── LOAD ──
 async function load() {
@@ -486,7 +477,11 @@ async function load() {
     renderAll();
   } catch { useDemo(); }
 }
-function useDemo() { allT = JSON.parse(JSON.stringify(DEMO)); document.getElementById('lastUpdate').textContent = '範例資料'; renderAll(); }
+function useDemo() {
+  allT = JSON.parse(JSON.stringify(DEMO));
+  document.getElementById('lastUpdate').textContent = '範例資料';
+  renderAll();
+}
 function pcsv(t) {
   const rows=[]; let row=[],cur='',inQ=false;
   for (let i=0;i<t.length;i++) {
@@ -502,66 +497,60 @@ function pcsv(t) {
 
 // ── FILTERS ──
 function getF() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  const terms = q.split(/\s+/).filter(Boolean);
+  const terms = document.getElementById('searchInput').value.toLowerCase().trim().split(/\s+/).filter(Boolean);
   return allT.filter(t => {
-    if (fCat && t.cat !== fCat) return false;
+    if (fCat  && t.cat !== fCat) return false;
     if (fUnit && !t.unit.includes(fUnit)) return false;
-    if (fPri && t.pri !== fPri) return false;
+    if (fPri  && t.pri !== fPri) return false;
     if (terms.length) {
       const hay = `${t.name} ${t.note} ${t.cat} ${t.subcat} ${t.unit}`.toLowerCase();
-      if (!terms.every(term => hay.includes(term))) return false;
+      if (!terms.every(w => hay.includes(w))) return false;
     }
     return true;
   });
 }
-function applyFilters() { renderActiveFilters(); renderAll(); }
-
-function renderActiveFilters() {
+function applyFilters() { renderAFTags(); renderAll(); }
+function renderAFTags() {
   const tags = [];
-  if (fCat)  tags.push({label: `類別: ${fCat}`,  clear: () => { fCat=''; document.querySelectorAll('[data-f="cat"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="cat"][data-v=""]').classList.add('on'); applyFilters(); }});
-  if (fUnit) tags.push({label: `單位: ${fUnit}`, clear: () => { fUnit=''; document.querySelectorAll('[data-f="unit"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="unit"][data-v=""]').classList.add('on'); applyFilters(); }});
-  if (fPri)  tags.push({label: `優先: ${fPri}`,  clear: () => { fPri=''; document.querySelectorAll('[data-f="pri"]').forEach(b=>b.classList.remove('on')); document.querySelector('[data-f="pri"][data-v=""]').classList.add('on'); applyFilters(); }});
-  const wrap = document.getElementById('activeFilters');
-  wrap.innerHTML = tags.map((t,i) => `<span class="af-tag">${es(t.label)}<button onclick="clearFilter(${i})">✕</button></span>`).join('');
-  wrap._clears = tags.map(t => t.clear);
+  if (fCat)  tags.push({l:`類別: ${fCat}`,  c:()=>{fCat=''; resetChip('cat'); applyFilters();}});
+  if (fUnit) tags.push({l:`單位: ${fUnit}`, c:()=>{fUnit='';resetChip('unit');applyFilters();}});
+  if (fPri)  tags.push({l:`優先: ${fPri}`,  c:()=>{fPri=''; resetChip('pri'); applyFilters();}});
+  const w = document.getElementById('aftags');
+  w.innerHTML = tags.map((t,i)=>`<span class="aftag">${es(t.l)}<button onclick="clrTag(${i})">✕</button></span>`).join('');
+  w._c = tags.map(t=>t.c);
 }
-function clearFilter(i) { document.getElementById('activeFilters')._clears[i](); }
-
+function clrTag(i) { document.getElementById('aftags')._c[i](); }
+function resetChip(f) {
+  document.querySelectorAll(`.fchip[data-f="${f}"]`).forEach(b=>b.classList.remove('on'));
+  document.querySelector(`.fchip[data-f="${f}"][data-v=""]`).classList.add('on');
+}
 document.querySelectorAll('.fchip').forEach(b => b.addEventListener('click', function() {
   const f=this.dataset.f, v=this.dataset.v;
-  document.querySelectorAll(`.fchip[data-f="${f}"]`).forEach(x => x.classList.remove('on'));
+  document.querySelectorAll(`.fchip[data-f="${f}"]`).forEach(x=>x.classList.remove('on'));
   this.classList.add('on');
-  if(f==='cat') fCat=v; if(f==='unit') fUnit=v; if(f==='pri') fPri=v;
+  if(f==='cat')fCat=v; if(f==='unit')fUnit=v; if(f==='pri')fPri=v;
   applyFilters();
 }));
-
 function toggleSort() {
-  const s=['due','pri','start'], l={due:'到期日',pri:'優先級',start:'開始日'};
-  curSort = s[(s.indexOf(curSort)+1)%s.length];
-  document.getElementById('sortLabel').textContent = l[curSort];
+  const s=['due','pri','start'],l={due:'到期日',pri:'優先級',start:'開始日'};
+  curSort=s[(s.indexOf(curSort)+1)%s.length];
+  document.getElementById('sortLabel').textContent=l[curSort];
   applyFilters();
 }
 function srt(tasks) {
   return [...tasks].sort((a,b) => {
-    // pinned always first
-    const ap = isPinned(a.id), bp = isPinned(b.id);
-    if (ap && !bp) return -1; if (!ap && bp) return 1;
-    if (curSort==='due')   return (a.due||'9999') > (b.due||'9999') ? 1 : -1;
-    if (curSort==='pri')   return a.pri > b.pri ? 1 : -1;
-    return (a.start||'') > (b.start||'') ? 1 : -1;
+    const ap=isPinned(a.id),bp=isPinned(b.id);
+    if(ap&&!bp)return -1; if(!ap&&bp)return 1;
+    if(curSort==='due')  return (a.due||'9999')>(b.due||'9999')?1:-1;
+    if(curSort==='pri')  return a.pri>b.pri?1:-1;
+    return (a.start||'')>(b.start||'')?1:-1;
   });
 }
 
 // ── RENDER ALL ──
 function renderAll() {
-  const tasks = srt(getF());
-  rStats(tasks);
-  rPinned();
-  rWeekly();
-  rKB(tasks);
-  rGantt(tasks);
-  rCharts(allT);
+  const t = srt(getF());
+  rStats(t); rPinned(); rWeekly(); rKB(t); rGantt(t); rCharts(allT);
 }
 
 // ── STATS ──
@@ -576,7 +565,7 @@ function rStats(tasks) {
     <div class="sc ur"><div class="sv r">${od.length+tdd.length}</div><div class="sl">🔴 今日到期＋逾期</div>
       <div class="si">${[...od,...tdd].slice(0,3).map(x=>`<span style="color:var(--red)">${x.name.slice(0,14)}</span>`).join('<br>')||'無'}</div></div>
     <div class="sc wa"><div class="sv y">${wd.length}</div><div class="sl">🟡 本週即將到期</div>
-      <div class="si">${wd.slice(0,3).map(x=>`${x.name.slice(0,12)} (${dl(x.due,x.status)})`).join('<br>')||'無'}</div></div>
+      <div class="si">${wd.slice(0,3).map(x=>`${x.name.slice(0,12)} (${dueLabel(x.due,x.status)})`).join('<br>')||'無'}</div></div>
     <div class="sc in"><div class="sv b">${ip.length}</div><div class="sl">進行中項目</div>
       <div class="si">P0: ${ip.filter(x=>x.pri==='P0').length} &nbsp;P1: ${ip.filter(x=>x.pri==='P1').length} &nbsp;P2: ${ip.filter(x=>x.pri==='P2').length}</div></div>
     <div class="sc ok"><div class="sv g">${dn.length}</div><div class="sl">已完成項目</div>
@@ -585,87 +574,79 @@ function rStats(tasks) {
       <div class="si">${[...new Set(tasks.map(x=>x.cat))].join(' · ')||'—'}</div></div>`;
 }
 
-// ── PINNED ZONE ──
+// ── PINNED ──
 function rPinned() {
-  const pinned = allT.filter(t => isPinned(t.id));
-  const zone = document.getElementById('pinnedZone');
-  if (!pinned.length) { zone.classList.add('hidden'); return; }
-  zone.classList.remove('hidden');
-  document.getElementById('pinnedList').innerHTML = pinned.map(t => {
-    const ov = ovGrade(t.due, t.status);
-    const dueLabel = t.due ? dl(t.due, t.status) : '';
-    return `<div class="pinned-item" onclick="openModal('${es(t.id)}')">
-      <span>📌</span>
-      <span class="pinned-name">${es(t.name)}</span>
-      <div class="pinned-meta">
+  const p = allT.filter(t=>isPinned(t.id));
+  const z = document.getElementById('pzone');
+  if (!p.length) { z.classList.add('hidden'); return; }
+  z.classList.remove('hidden');
+  document.getElementById('plist').innerHTML = p.map(t => {
+    const ov = ovInfo(t.due, t.status);
+    return `<div class="pitem" onclick="openModal('${es(t.id)}')">
+      <span>📌</span><span class="pname">${es(t.name)}</span>
+      <div class="pmeta">
         <span class="cpri ${pc(t.pri)}">${t.pri}</span>
-        ${ov ? `<span class="ov-badge ${ov.badgeCls}">${ov.label}</span>` : dueLabel ? `<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">${dueLabel}</span>` : ''}
-        ${t.link ? `<a href="${es(t.link)}" target="_blank" onclick="event.stopPropagation()" class="clink-icon" title="文件連結">📎</a>` : ''}
-        <button class="btn-pin pinned" onclick="event.stopPropagation();togglePin('${es(t.id)}')" title="取消釘選">📌</button>
+        ${ov?`<span class="ovb ${ov.cls}">${ov.lbl}</span>`:t.due?`<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">${dueLabel(t.due,t.status)}</span>`:''}
+        ${t.link?`<a href="${es(t.link)}" target="_blank" onclick="event.stopPropagation()" style="font-size:15px;opacity:.7;text-decoration:none">📎</a>`:''}
+        <button class="btn-pin on" onclick="event.stopPropagation();togglePin('${es(t.id)}')" title="取消釘選">📌</button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── WEEKLY RECAP ──
+// ── WEEKLY ──
 function rWeekly() {
-  const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
-  const cutoffStr = cutoff.toISOString().slice(0,10);
-  const done = allT.filter(t => t.status==='⚪️已完成' && t.updated >= cutoffStr);
-  const zone = document.getElementById('weeklyZone');
-  if (!done.length) { zone.classList.add('hidden'); return; }
-  zone.classList.remove('hidden');
-  document.getElementById('weeklyList').innerHTML = done.map(t => `
-    <div class="weekly-item">
-      <span class="wcat">${es(t.cat)}</span>
-      <span>${es(t.name)}</span>
-      <span class="wdate">${es(t.updated)}</span>
-    </div>`).join('');
+  const cut = new Date(); cut.setDate(cut.getDate()-7);
+  const cutStr = cut.toISOString().slice(0,10);
+  const done = allT.filter(t=>t.status==='⚪️已完成'&&t.updated>=cutStr);
+  const z = document.getElementById('wzone');
+  if (!done.length) { z.classList.add('hidden'); return; }
+  z.classList.remove('hidden');
+  document.getElementById('wlist').innerHTML = done.map(t=>`
+    <div class="witem"><span class="wcat">${es(t.cat)}</span><span>${es(t.name)}</span><span class="wdate">${es(t.updated)}</span></div>`).join('');
 }
 
 // ── KANBAN ──
 const COLS=[
-  {l:'🔴 緊急', c:'cr',  f:t=>t.status.includes('緊急')||(dd(t.due)<0&&t.status!=='⚪️已完成')},
-  {l:'🟡 進行中',c:'cy',  f:t=>t.status.includes('進行')&&dd(t.due)>=0},
+  {l:'🔴 緊急', c:'cr',  f:t=>t.status.includes('緊急')||(t.due&&dd(t.due)<0&&t.status!=='⚪️已完成')},
+  {l:'🟡 進行中',c:'cy',  f:t=>t.status.includes('進行')&&(!t.due||dd(t.due)>=0)},
   {l:'🟢 待處理',c:'cg',  f:t=>t.status.includes('待處理')},
   {l:'🔵 排程中',c:'cb',  f:t=>t.status.includes('排程')},
   {l:'⚪️ 已完成',c:'cgr', f:t=>t.status.includes('已完成')},
 ];
-
-function buildLinkIcons(t) {
-  if (!t.link) return '';
-  let icon = '📎', title = '文件連結';
-  if (t.link.includes('t.me') || t.link.includes('telegram')) { icon='💬'; title='Telegram'; }
-  else if (t.link.includes('mail') || t.link.includes('gmail')) { icon='📧'; title='郵件'; }
-  return `<a href="${es(t.link)}" target="_blank" class="clink-icon" title="${title}" onclick="event.stopPropagation()">${icon}</a>`;
+function linkIcon(link) {
+  if (!link) return '';
+  let ic='📎';
+  if (link.includes('t.me')||link.includes('telegram')) ic='💬';
+  else if (link.includes('mail')||link.includes('gmail')) ic='📧';
+  return `<a href="${es(link)}" target="_blank" class="cli" onclick="event.stopPropagation()" title="開啟連結">${ic}</a>`;
 }
-
 function rKB(tasks) {
   document.getElementById('kb').innerHTML = COLS.map(col => {
     const items = tasks.filter(col.f);
     const cards = items.map(t => {
-      const ov = ovGrade(t.due, t.status);
-      const cardCls = ov ? ov.cls : (dd(t.due)>=0 && dd(t.due)<=7 ? 'ds' : '');
-      const pinned = isPinned(t.id);
-      return `<div class="tc ${cardCls} ${pinned?'pinned-card':''}">
+      const ov = ovInfo(t.due, t.status);
+      const ccls = ov ? ov.cls : (t.due&&dd(t.due)>=0&&dd(t.due)<=7?'ds':'');
+      const pin = isPinned(t.id);
+      return `<div class="tc ${ccls} ${pin?'pcrd':''}">
         <div class="ctop">
-          <div class="ctop-left">
-            <button class="btn-pin ${pinned?'pinned':''}" onclick="togglePin('${es(t.id)}')" title="${pinned?'取消釘選':'釘選'}">📌</button>
+          <div class="ctop-l">
+            <button class="btn-pin ${pin?'on':''}" onclick="togglePin('${es(t.id)}')" title="${pin?'取消釘選':'釘選'}">📌</button>
             <div class="cname" onclick="openModal('${es(t.id)}')">${es(t.name)}</div>
           </div>
-          <div class="ctop-right">
-            ${ov ? `<span class="ov-badge ${ov.badgeCls}">${ov.label}</span>` : ''}
+          <div class="ctop-r">
+            ${ov?`<span class="ovb ${ov.cls}">${ov.lbl}</span>`:''}
             <span class="cpri ${pc(t.pri)}">${t.pri}</span>
           </div>
         </div>
         <div class="cmeta">
           <span class="ccat">${es(t.cat)}</span>
           ${t.unit?`<span class="cunit">${es(t.unit)}</span>`:''}
-          ${t.due?`<span class="cdue ${dueCls(t.due,t.status)}">${dl(t.due,t.status)}</span>`:''}
+          ${t.due?`<span class="cdue ${dueCls(t.due,t.status)}">${dueLabel(t.due,t.status)}</span>`:''}
         </div>
         <div class="pb"><div class="pf ${pfc(t.pri,t.pct)}" style="width:${t.pct}%"></div></div>
         <div class="cpl">${t.pct}%</div>
-        ${t.link ? `<div class="clinks">${buildLinkIcons(t)}</div>` : ''}
+        ${t.link?`<div class="clinks">${linkIcon(t.link)}</div>`:''}
         <div class="cexp" id="ex-${es(t.id)}">
           ${t.note?`<div class="cnote">📝 ${es(t.note)}</div>`:''}
           <div class="cid">${es(t.id)} · 更新: ${es(t.updated)}</div>
@@ -676,17 +657,16 @@ function rKB(tasks) {
           </div>
         </div>
       </div>`;
-    }).join('') || '<div class="noi">—</div>';
+    }).join('')||'<div class="noi">—</div>';
     return `<div class="kbc ${col.c}">
       <div class="kbh"><div class="kbht">${col.l}</div><span class="kbn">${items.length}</span></div>
       <div class="kbb" onclick="tog(event)">${cards}</div>
     </div>`;
   }).join('');
 }
-
 function tog(e) {
-  const c = e.target.closest('.tc');
-  if (!c||e.target.closest('button')||e.target.closest('a')||e.target.closest('.cname')) return;
+  const c=e.target.closest('.tc');
+  if(!c||e.target.closest('button')||e.target.closest('a')||e.target.closest('.cname'))return;
   c.querySelector('.cexp')?.classList.toggle('open');
 }
 
@@ -700,7 +680,7 @@ function rGantt(tasks) {
   dt+=`<div class="gtd" style="left:${tp}%"></div><div class="gtdl" style="left:${tp}%">今天</div>`;
   const rows=act.slice(0,20).map(t=>{
     const s0=Math.max(0,(new Date(t.start)-t0)/864e5),e0=Math.min(60,(new Date(t.due)-t0)/864e5);
-    if(e0<0||s0>60) return '';
+    if(e0<0||s0>60)return '';
     const lft=(s0/60)*100,wid=Math.max(0.5,((e0-s0)/60)*100);
     const cls=t.status.includes('緊急')||dd(t.due)<0?'gbr':t.status.includes('待處理')||t.status.includes('排程')?'gbb':'gby';
     return `<div class="gr"><div class="gl" title="${es(t.name)}">${es(t.name)}</div>
@@ -714,9 +694,8 @@ function rGantt(tasks) {
 
 // ── CHARTS ──
 const CC={'查資料':'#3b7dd8','翻譯':'#f0b429','信件':'#e05252','追蹤':'#3dc97e','會議':'#a78bfa','報告':'#4ba3d9'};
-function rCharts(tasks) {
-  const cc={};
-  tasks.forEach(t=>{cc[t.cat]=(cc[t.cat]||0)+1;});
+function rCharts(tasks){
+  const cc={};tasks.forEach(t=>{cc[t.cat]=(cc[t.cat]||0)+1;});
   const tot=tasks.length||1;
   let ph='<div class="pw">'+bpie(cc,tot)+'<div class="pl">';
   Object.entries(cc).forEach(([k,v])=>{ph+=`<div class="pli"><span class="pd" style="background:${CC[k]||'#6b7ea0'}"></span>${k} (${v})</div>`;});
@@ -727,10 +706,10 @@ function rCharts(tasks) {
   let bh='<div class="bc">'+Object.entries(ic).sort((a,b)=>b[1]-a[1]).map(([k,v])=>
     `<div class="br"><div class="blbl">${k}</div><div class="bt"><div class="bf" style="width:${(v/mb)*100}%;background:${CC[k]||'#6b7ea0'}"></div></div><div class="bv">${v}</div></div>`
   ).join('')+'</div>';
-  const months=['12月','1月','2月','3月','4月','5月'];
+  const ms=['12月','1月','2月','3月','4月','5月'];
   const ov=[2,3,1,4,2,tasks.filter(t=>dd(t.due)<0&&t.status!=='⚪️已完成').length];
   const mo=Math.max(...ov,1);
-  let lh='<div class="ml">'+months.map((m,i)=>
+  let lh='<div class="ml">'+ms.map((m,i)=>
     `<div class="mlr"><div class="mlm">${m}</div><div class="mlb"><div class="mlf" style="width:${(ov[i]/mo)*100}%"></div></div><div class="mlv">${ov[i]}</div></div>`
   ).join('')+'</div>';
   document.getElementById('charts').innerHTML=`
@@ -738,7 +717,7 @@ function rCharts(tasks) {
     <div class="chc"><div class="cht">進行中（依類別）</div>${bh||'<div style="color:var(--text3);font-size:12px">無資料</div>'}</div>
     <div class="chc"><div class="cht">逾期趨勢（近6月）</div>${lh}</div>`;
 }
-function bpie(cc,tot) {
+function bpie(cc,tot){
   const e=Object.entries(cc);let p='',a=-Math.PI/2;
   e.forEach(([k,v])=>{
     const ang=(v/tot)*Math.PI*2,x1=60+50*Math.cos(a),y1=60+50*Math.sin(a),x2=60+50*Math.cos(a+ang),y2=60+50*Math.sin(a+ang);
@@ -750,93 +729,91 @@ function bpie(cc,tot) {
 
 // ── MODAL ──
 function openModal(id) {
-  const t = id ? allT.find(x=>x.id===id) : null;
-  document.getElementById('moTitle').textContent = t ? '編輯任務' : '新增任務';
-  document.getElementById('eid').value = id||'';
-  document.getElementById('fName').value    = t?.name||'';
-  document.getElementById('fCat').value     = t?.cat||'查資料';
-  document.getElementById('fSub').value     = t?.subcat||'';
-  document.getElementById('fStat').value    = t?.status||'🟢待處理';
-  document.getElementById('fPri').value     = t?.pri||'P1';
-  document.getElementById('fStart').value   = t?.start||td();
-  document.getElementById('fDue').value     = t?.due||'';
-  document.getElementById('fAsgn').value    = t?.assignee||'我';
-  document.getElementById('fUnit').value    = t?.unit||'';
-  document.getElementById('fLink').value    = t?.link||'';
-  document.getElementById('fNote').value    = t?.note||'';
-  const pv = t?.pct||0;
-  document.getElementById('fPct').value = pv;
-  document.getElementById('fpv').textContent = pv+'%';
-  document.getElementById('sbtn').textContent = t ? '儲存變更' : '新增';
+  const t=id?allT.find(x=>x.id===id):null;
+  document.getElementById('moTitle').textContent=t?'編輯任務':'新增任務';
+  document.getElementById('eid').value=id||'';
+  document.getElementById('fName').value   =t?.name||'';
+  document.getElementById('fCat').value    =t?.cat||'查資料';
+  document.getElementById('fSub').value    =t?.subcat||'';
+  document.getElementById('fStat').value   =t?.status||'🟢待處理';
+  document.getElementById('fPri').value    =t?.pri||'P1';
+  document.getElementById('fStart').value  =t?.start||td();
+  document.getElementById('fDue').value    =t?.due||'';
+  document.getElementById('fAsgn').value   =t?.assignee||'我';
+  document.getElementById('fUnit').value   =t?.unit||'';
+  document.getElementById('fLink').value   =t?.link||'';
+  document.getElementById('fNote').value   =t?.note||'';
+  const pv=t?.pct||0;
+  document.getElementById('fPct').value=pv;
+  document.getElementById('fpv').textContent=pv+'%';
+  document.getElementById('sbtn').textContent=t?'儲存變更':'新增';
   document.getElementById('mo').classList.add('open');
   setTimeout(()=>document.getElementById('fName').focus(),100);
 }
-function closeMo() { document.getElementById('mo').classList.remove('open'); }
-function moClick(e) { if(e.target===document.getElementById('mo')) closeMo(); }
+function closeMo(){document.getElementById('mo').classList.remove('open');}
+function moClick(e){if(e.target===document.getElementById('mo'))closeMo();}
 
-async function submitTask() {
-  if (submitting) return;
-  const name = document.getElementById('fName').value.trim();
-  if (!name) { toast('請輸入項目名稱','e'); return; }
-  const id = document.getElementById('eid').value;
-  const data = {
-    action: id?'update':'add', id, name,
-    cat:      document.getElementById('fCat').value,
-    subcat:   document.getElementById('fSub').value,
-    status:   document.getElementById('fStat').value,
-    pri:      document.getElementById('fPri').value,
-    start:    document.getElementById('fStart').value,
-    due:      document.getElementById('fDue').value,
-    pct:      document.getElementById('fPct').value,
-    assignee: document.getElementById('fAsgn').value,
-    unit:     document.getElementById('fUnit').value,
-    link:     document.getElementById('fLink').value,
-    note:     document.getElementById('fNote').value,
+async function submitTask(){
+  if(submitting)return;
+  const name=document.getElementById('fName').value.trim();
+  if(!name){toast('請輸入項目名稱','e');return;}
+  const id=document.getElementById('eid').value;
+  const data={
+    action:id?'update':'add',id,name,
+    cat:     document.getElementById('fCat').value,
+    subcat:  document.getElementById('fSub').value,
+    status:  document.getElementById('fStat').value,
+    pri:     document.getElementById('fPri').value,
+    start:   document.getElementById('fStart').value,
+    due:     document.getElementById('fDue').value,
+    pct:     document.getElementById('fPct').value,
+    assignee:document.getElementById('fAsgn').value,
+    unit:    document.getElementById('fUnit').value,
+    link:    document.getElementById('fLink').value,
+    note:    document.getElementById('fNote').value,
   };
-  if (!SURL) {
-    if (id) { const i=allT.findIndex(t=>t.id===id); if(i>=0) Object.assign(allT[i],{...data,updated:td()}); }
-    else { const mx=allT.reduce((m,t)=>{const n=parseInt(t.id.split('-').pop()||0);return Math.max(m,n);},0); allT.push({...data,id:`ESG-${new Date().getFullYear()}-${String(mx+1).padStart(3,'0')}`,updated:td()}); }
-    closeMo(); renderAll(); toast(id?'已更新（範例模式）':'已新增（範例模式）','i'); return;
+  if(!SURL){
+    if(id){const i=allT.findIndex(t=>t.id===id);if(i>=0)Object.assign(allT[i],{...data,updated:td()});}
+    else{const mx=allT.reduce((m,t)=>{const n=parseInt(t.id.split('-').pop()||0);return Math.max(m,n);},0);allT.push({...data,id:`ESG-${new Date().getFullYear()}-${String(mx+1).padStart(3,'0')}`,updated:td()});}
+    closeMo();renderAll();toast(id?'已更新（範例模式）':'已新增（範例模式）','i');return;
   }
-  submitting=true; document.getElementById('sbtn').textContent='儲存中…';
-  try {
-    const r=await fetch(SURL,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}});
-    const res=await r.json();
-    if(res.ok){ closeMo(); toast(id?'已更新任務':'已新增任務','s'); setTimeout(load,1500); }
+  submitting=true;document.getElementById('sbtn').textContent='儲存中…';
+  try{
+    const res=await callScript(data);
+    if(res.ok){closeMo();toast(id?'已更新任務':'已新增任務','s');setTimeout(load,1500);}
     else toast('寫入失敗：'+res.error,'e');
-  } catch(e) { toast('連線錯誤：'+e.message,'e'); }
-  finally { submitting=false; document.getElementById('sbtn').textContent='儲存'; }
+  }catch(e){toast('連線錯誤：'+e.message,'e');}
+  finally{submitting=false;document.getElementById('sbtn').textContent='儲存';}
 }
 
-// ── QUICK ACTIONS ──
-async function qComplete(id) {
-  if (!SURL) { const t=allT.find(x=>x.id===id); if(t){t.status='⚪️已完成';t.pct=100;t.updated=td();} renderAll(); toast('已標記完成（範例模式）','i'); return; }
-  try {
-    const r=await fetch(SURL,{method:'POST',body:JSON.stringify({action:'complete',id}),headers:{'Content-Type':'application/json'}});
-    const res=await r.json();
-    if(res.ok){toast('✅ 已標記完成','s');setTimeout(load,1500);}else toast('失敗：'+res.error,'e');
-  } catch { toast('連線錯誤','e'); }
+async function qComplete(id){
+  if(!SURL){const t=allT.find(x=>x.id===id);if(t){t.status='⚪️已完成';t.pct=100;t.updated=td();}renderAll();toast('已標記完成（範例模式）','i');return;}
+  try{
+    const res=await callScript({action:'complete',id});
+    if(res.ok){toast('✅ 已標記完成','s');setTimeout(load,1500);}
+    else toast('失敗：'+res.error,'e');
+  }catch(e){toast('連線錯誤：'+e.message,'e');}
 }
-function qDel(id,name){ if(!confirm(`確定刪除「${name}」？\n此操作無法復原。`)) return; doDelete(id); }
-async function doDelete(id) {
-  if (!SURL) { allT=allT.filter(t=>t.id!==id); if(isPinned(id)){pinnedIds=pinnedIds.filter(x=>x!==id);savePins();} renderAll(); toast('已刪除（範例模式）','i'); return; }
-  try {
-    const r=await fetch(SURL,{method:'POST',body:JSON.stringify({action:'delete',id}),headers:{'Content-Type':'application/json'}});
-    const res=await r.json();
-    if(res.ok){if(isPinned(id)){pinnedIds=pinnedIds.filter(x=>x!==id);savePins();} toast('已刪除','s');setTimeout(load,1500);}else toast('刪除失敗：'+res.error,'e');
-  } catch { toast('連線錯誤','e'); }
+function qDel(id,name){if(!confirm(`確定刪除「${name}」？\n此操作無法復原。`))return;doDelete(id);}
+async function doDelete(id){
+  if(!SURL){allT=allT.filter(t=>t.id!==id);if(isPinned(id)){pins=pins.filter(x=>x!==id);localStorage.setItem('esg_pins',JSON.stringify(pins));}renderAll();toast('已刪除（範例模式）','i');return;}
+  try{
+    const res=await callScript({action:'delete',id});
+    if(res.ok){if(isPinned(id)){pins=pins.filter(x=>x!==id);localStorage.setItem('esg_pins',JSON.stringify(pins));}toast('已刪除','s');setTimeout(load,1500);}
+    else toast('刪除失敗：'+res.error,'e');
+  }catch(e){toast('連線錯誤：'+e.message,'e');}
 }
 
 // ── TOAST ──
-function toast(msg,type='i',ms=3200) {
+function toast(msg,type='i',ms=3200){
   const w=document.getElementById('tw'),d=document.createElement('div');
   d.className=`toast ${type}`;
   d.textContent=(type==='s'?'✅ ':type==='e'?'❌ ':'ℹ️ ')+msg;
-  w.appendChild(d); setTimeout(()=>d.remove(),ms);
+  w.appendChild(d);setTimeout(()=>d.remove(),ms);
 }
 
-// ── THEME & CONFIG ──
-function toggleTheme() {
+// ── THEME ──
+function toggleTheme(){
   document.body.classList.toggle('light');
   const l=document.body.classList.contains('light');
   document.getElementById('themeBtn').textContent=l?'☀️':'🌙';
@@ -844,7 +821,8 @@ function toggleTheme() {
 }
 if(localStorage.getItem('esg_theme')==='light'){document.body.classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
 
-function saveConfig() {
+// ── CONFIG ──
+function saveConfig(){
   const id=document.getElementById('sid').value.trim();
   const url=document.getElementById('surl').value.trim();
   if(id){SID=id;localStorage.setItem('esg_sid',id);}
@@ -852,13 +830,13 @@ function saveConfig() {
   document.getElementById('cfgp').classList.add('hidden');
   load();
 }
-if(SID) document.getElementById('sid').value=SID;
+if(SID)  document.getElementById('sid').value=SID;
 if(SURL) document.getElementById('surl').value=SURL;
 
 // ── INIT ──
 load();
-setInterval(load, 5*60*1000);
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeMo(); });
+setInterval(load,5*60*1000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMo();});
 </script>
 </body>
 </html>
