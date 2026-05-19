@@ -266,10 +266,10 @@ textarea.fc{resize:vertical;min-height:70px;}
   <span class="fsep">|</span>
   <span class="flbl">單位</span>
   <button class="fchip on" data-f="unit" data-v="">全部</button>
-  <button class="fchip" data-f="unit" data-v="金管會">金管會</button>
+  <button class="fchip" data-f="unit" data-v="主管機關">主管機關</button>
   <button class="fchip" data-f="unit" data-v="董事會">董事會</button>
-  <button class="fchip" data-f="unit" data-v="風控部">風控部</button>
-  <button class="fchip" data-f="unit" data-v="業務部">業務部</button>
+  <button class="fchip" data-f="unit" data-v="策略規劃">策略規劃</button>
+  <button class="fchip" data-f="unit" data-v="AMK">AMK</button>
   <span class="fsep">|</span>
   <span class="flbl">優先</span>
   <button class="fchip on" data-f="pri" data-v="">全部</button>
@@ -369,7 +369,7 @@ textarea.fc{resize:vertical;min-height:70px;}
         <div class="fg"><div class="flb">負責人</div>
           <select class="fc" id="fAsgn"><option>我</option><option>同事</option><option>外部顧問</option></select>
         </div>
-        <div class="fg"><div class="flb">關聯單位</div><input type="text" class="fc" id="fUnit" placeholder="金管會 / 董事會…"></div>
+        <div class="fg"><div class="flb">關聯單位</div><input type="text" class="fc" id="fUnit" placeholder="主管機關 / 董事會 / 策略規劃 / AMK…"></div>
         <div class="fg fw"><div class="flb">完成度</div>
           <div class="pir">
             <input type="range" min="0" max="100" step="5" id="fPct" value="0" oninput="document.getElementById('fpv').textContent=this.value+'%'">
@@ -391,8 +391,8 @@ textarea.fc{resize:vertical;min-height:70px;}
 
 <script>
 // ── CONFIG ──
-let SID  = localStorage.getItem('esg_sid') || '';
-let SURL = localStorage.getItem('esg_surl') || '';
+let SID  = localStorage.getItem('esg_sid') || '1i478llFjPZa0M6WUgzBlTWWMpTzJ2nC43FC6qMZRzFU';
+let SURL = localStorage.getItem('esg_surl') || 'https://script.google.com/macros/s/AKfycbyc_U5Ue2nfWKWDHc-0nuTIkA-F2NhwuV-6DOakSe5OKYXqF2j9QZIGlZ3SjVMF_tO6ZQ/exec';
 const SNAME = 'ESG_Work';
 let allT = [], curSort = 'due', fCat = '', fUnit = '', fPri = '', submitting = false;
 let pins = JSON.parse(localStorage.getItem('esg_pins') || '[]');
