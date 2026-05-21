@@ -232,9 +232,18 @@ textarea.fc{resize:vertical;min-height:70px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px;}
 @media(max-width:600px){
-  .hdr{padding:0 12px;gap:8px;}.hdr-title{display:none;}.srch{width:130px;}
-  .main{padding:10px 12px;}.ghl,.gl{width:120px;min-width:120px;}
+  .hdr{padding:0 8px;gap:6px;}.hdr-title{display:none;}.srch{width:110px;}
+  .srch input::placeholder{font-size:11px;}
+  .main{padding:8px 10px;}.ghl,.gl{width:100px;min-width:100px;}
   .srow{grid-template-columns:1fr 1fr;}.fr{grid-template-columns:1fr;}
+  .fbar{padding:6px 10px;gap:4px;}
+  .fchip{padding:2px 8px;font-size:11px;}
+  .btn{padding:5px 8px;font-size:11px;}
+  .btn-pri{padding:5px 9px;font-size:11px;}
+  .sv{font-size:22px;}
+  .cname{font-size:12px;}
+  .ctop-r{flex-wrap:wrap;gap:3px;}
+  .hdr-sort{display:none;}
 }
 </style>
 </head>
@@ -249,7 +258,8 @@ textarea.fc{resize:vertical;min-height:70px;}
     <input type="text" id="searchInput" placeholder="搜尋名稱、備註、類別…" oninput="applyFilters()">
   </div>
   <button class="btn btn-pri" onclick="openModal()">＋ 新增任務</button>
-  <button class="btn" onclick="toggleSort()">排序: <span id="sortLabel">到期日</span></button>
+  <button class="btn hdr-sort" onclick="toggleSort()">排序: <span id="sortLabel">到期日</span></button>
+  <button class="btn" onclick="load()" title="重新整理">🔄</button>
   <button class="btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
   <div class="lup" id="lastUpdate">載入中…</div>
 </div>
